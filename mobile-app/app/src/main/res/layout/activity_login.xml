@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/appbar"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="57dp"
+                android:layout_height="66dp"
+                android:src="@drawable/logo_4" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="174dp"
+                android:layout_height="match_parent"
+                android:text=" goSAFE"
+                android:paddingVertical="6dp"
+                android:textAlignment="gravity"
+                android:textColor="#fff"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="25dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="ENTER YOUR MOBILE NUMBER HERE"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/RegEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your mobile number here"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="10dp"
+            android:padding="8dp"
+            android:background="@drawable/transparent_round"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="131dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="236dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/phone" />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:layout_gravity="center"
+                android:padding="15dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textColor="@color/colorAccent"
+                android:text="WE HAVE SENT AN OTP NUMBER TO VERIFY YOUR MOBILE NUMBER. PRESS LOGIN TO ENTER THE OTP NUMBER"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/round_button"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/login_1_btn"
+                android:onClick="OTPEnter"
+                android:layout_marginBottom="30dp"/>
+        </LinearLayout>
+
+</RelativeLayout>

@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class share extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_share);
     }
-
-    public void goToLogin(View view) {
-        Intent intent = new Intent(MainActivity.this, login.class);
-        startActivity(intent);
+    public void shareApp(View view) {
     }
 }
