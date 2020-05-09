@@ -15,4 +15,9 @@ public class share extends AppCompatActivity {
     }
     public void shareApp(View view) {
     }
+
+    public void goToAbout(View view) {
+        Intent intent = new Intent(share.this, about.class);
+        startActivity(intent);
+    }
 }

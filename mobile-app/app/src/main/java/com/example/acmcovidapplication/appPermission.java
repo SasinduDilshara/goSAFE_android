@@ -18,4 +18,9 @@ public class appPermission extends AppCompatActivity {
         Intent intent = new Intent(appPermission.this, share.class);
         startActivity(intent);
     }
+
+    public void goToAbout(View view) {
+        Intent intent = new Intent(appPermission.this, about.class);
+        startActivity(intent);
+    }
 }

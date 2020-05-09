@@ -13,7 +13,6 @@
 
         <LinearLayout
             android:id="@+id/appbar"
-            android:gravity="center"
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -26,13 +25,19 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="174dp"
+                android:layout_width="315dp"
                 android:layout_height="match_parent"
-                android:text=" goSAFE"
                 android:paddingVertical="6dp"
+                android:text=" goSAFE"
                 android:textAlignment="gravity"
                 android:textColor="#fff"
                 android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="goToAbout"
+                android:src="@drawable/baseline_more_vert_white_18dp" />
         </LinearLayout>
 
         <LinearLayout

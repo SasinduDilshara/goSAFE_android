@@ -32,26 +32,43 @@
                 android:textColor="#fff"
                 android:textSize="30sp" />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="40dp"
+            android:text="About the developers"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:gravity="center"
             android:paddingHorizontal="20dp"
-            android:paddingTop="50dp"
+            android:paddingTop="20dp"
             android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19."
             android:textColor="@color/black"
             android:textSize="20sp" />
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="40dp"
+            android:text="About ACM"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+        <TextView
             android:includeFontPadding="true"
-            android:textFontWeight=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:gravity="center"
             android:paddingHorizontal="20dp"
-            android:paddingTop="50dp"
+            android:paddingTop="20dp"
             android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of that, we always strive to use our skills for the betterment of the society. We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -63,16 +80,6 @@
             android:paddingBottom="30dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="YOUR DATA WILL NOT BE ACCESSED UNLESS YOU ARE FOUND NEAR A PATIENT"
-                android:textColor="@color/colorAccent"
-                android:textSize="15sp" />
-
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +87,7 @@
                 android:background="@drawable/round_button"
                 android:textColor="#ffffff"
                 android:padding="10dp"
-                android:text="@string/welcome_btn">
+                android:text="Back">
 
             </Button>
         </LinearLayout>

@@ -9,29 +9,34 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:id="@+id/appbar"
-        android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/appbar"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="57dp"
-            android:layout_height="66dp"
-            android:src="@drawable/logo_4" />
+            <ImageView
+                android:layout_width="57dp"
+                android:layout_height="66dp"
+                android:src="@drawable/logo_4" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="174dp"
-            android:layout_height="match_parent"
-            android:text=" goSAFE"
-            android:paddingVertical="6dp"
-            android:textAlignment="gravity"
-            android:textColor="#fff"
-            android:textSize="30sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="315dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="6dp"
+                android:text=" goSAFE"
+                android:textAlignment="gravity"
+                android:textColor="#fff"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="goToAbout"
+                android:src="@drawable/baseline_more_vert_white_18dp" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
