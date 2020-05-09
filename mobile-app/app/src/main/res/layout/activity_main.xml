@@ -44,7 +44,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="152dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="20dp"
@@ -60,7 +60,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="109dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="20dp"
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingVertical="30dp"
+        android:paddingBottom="30dp"
         android:orientation="vertical">
 
         <TextView
@@ -92,6 +92,7 @@
             android:layout_marginHorizontal="8dp"
             android:background="@drawable/round_button"
             android:onClick="goToLogin"
+            android:textColor="#ffffff"
             android:padding="10dp"
             android:text="@string/welcome_btn">
 

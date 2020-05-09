@@ -192,6 +192,7 @@
             android:background="@drawable/round_button"
             android:layout_marginHorizontal="10dp"
             android:text="@string/login_1_btn"
+            android:textColor="#ffffff"
             android:onClick="appPermissions"
             android:layout_marginBottom="30dp"/>
     </LinearLayout>

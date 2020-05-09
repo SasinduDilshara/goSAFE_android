@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login">
+    tools:context=".about">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <LinearLayout
             android:id="@+id/appbar"
             android:gravity="center"
@@ -36,68 +35,53 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="25dp"
-            android:layout_marginHorizontal="10dp"
-            android:text="ENTER YOUR MOBILE NUMBER HERE"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/RegEmail"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your mobile number here"
-            android:inputType="number"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="10dp"
-            android:padding="8dp"
-            android:background="@drawable/transparent_round"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="131dp"
-            android:layout_gravity="center"
+            android:layout_gravity="fill_horizontal"
             android:gravity="center"
-            android:padding="15dp"
-            android:text="YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="50dp"
+            android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19."
             android:textColor="@color/black"
             android:textSize="20sp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="236dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/phone" />
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="vertical"
+        <TextView
+            android:includeFontPadding="true"
+            android:textFontWeight=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="50dp"
+            android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of that, we always strive to use our skills for the betterment of the society. We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="30dp"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_gravity="center"
-                android:padding="15dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:textColor="@color/colorAccent"
-                android:text="WE HAVE SENT AN OTP NUMBER TO VERIFY YOUR MOBILE NUMBER. PRESS LOGIN TO ENTER THE OTP NUMBER"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="YOUR DATA WILL NOT BE ACCESSED UNLESS YOU ARE FOUND NEAR A PATIENT"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/round_button"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/login_1_btn"
                 android:textColor="#ffffff"
-                android:onClick="OTPEnter"
-                android:layout_marginBottom="30dp"/>
+                android:padding="10dp"
+                android:text="@string/welcome_btn">
+
+            </Button>
         </LinearLayout>
 </RelativeLayout>

@@ -62,6 +62,7 @@
             android:layout_marginHorizontal="10dp"
             android:text="@string/share_btn"
             android:onClick="shareApp"
+            android:textColor="#ffffff"
             android:layout_marginBottom="30dp"/>
     </LinearLayout>
 </RelativeLayout>

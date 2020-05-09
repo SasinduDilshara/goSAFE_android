@@ -56,36 +56,63 @@
                 android:layout_height="220dp"
                 android:layout_marginTop="0dp"
                 android:src="@drawable/phone" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/permission_1"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
+                android:orientation="horizontal">
+                <ImageView
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/round_bluetooth_black_18dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/permission_1"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/permission_2"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
+                android:orientation="horizontal">
+                <ImageView
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/round_notification_important_black_18dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/permission_2"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/permission_3"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:orientation="horizontal">
+                <ImageView
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/round_phone_black_18dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/permission_3"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -98,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:textColor="#ffffff"
             android:background="@drawable/round_button"
             android:layout_marginHorizontal="10dp"
             android:text="@string/allow_btn"
