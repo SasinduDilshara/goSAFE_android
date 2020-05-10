@@ -27,7 +27,15 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".broadcast_receiver.StartupReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.REBOOT">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <service android:name=".services.CustomService"/>
     </application>
-
 </manifest>
