@@ -32,14 +32,11 @@ public class CustomService extends Service implements BeaconConsumer {
     @Override
     public void onCreate() {
         super.onCreate();
-        transmitBeacon();
 
-        beaconManager = BeaconManager.getInstanceForApplication(this);
-        // To detect proprietary beacons, you must add a line like below corresponding to your beacon
-        // type.  Do a web search for "setBeaconLayout" to get the proper expression.
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-        beaconManager.bind(this);
+
+        setupBeacon();
+
+
     }
 
     @Override
@@ -84,7 +81,7 @@ public class CustomService extends Service implements BeaconConsumer {
     }
 
     //this will transmit the beacon
-    private void transmitBeacon(){
+    private void setupBeacon(){
         Beacon beacon = new Beacon.Builder()
                 .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6") // need to generate ids device specific
                 .setId2("1")
@@ -97,5 +94,12 @@ public class CustomService extends Service implements BeaconConsumer {
                 .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
         BeaconTransmitter beaconTransmitter = new BeaconTransmitter(this, beaconParser);
         beaconTransmitter.startAdvertising(beacon);
+
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        // To detect proprietary beacons, you must add a line like below corresponding to your beacon
+        // type.  Do a web search for "setBeaconLayout" to get the proper expression.
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+        beaconManager.bind(this);
     }
 }

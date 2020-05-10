@@ -19,7 +19,7 @@ public class App extends Application {
         super.onCreate();
 
         createNotificationChannel();
-        Intent intent = new Intent(this, CustomService.class);
+
         Intent serviceIntent = new Intent(this, CustomService.class);
 
         ContextCompat.startForegroundService(this, serviceIntent);
