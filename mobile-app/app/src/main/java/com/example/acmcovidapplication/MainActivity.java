@@ -13,11 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.acmcovidapplication.services.Util;
-
-import static com.example.acmcovidapplication.services.Util.PERMISSION_REQUEST_BACKGROUND_LOCATION;
-import static com.example.acmcovidapplication.services.Util.PERMISSION_REQUEST_COARSE_LOCATION;
-import static com.example.acmcovidapplication.services.Util.PERMISSION_REQUEST_FINE_LOCATION;
+import static com.example.acmcovidapplication.Util.PERMISSION_REQUEST_COARSE_LOCATION;
 
 public class MainActivity extends AppCompatActivity {
 

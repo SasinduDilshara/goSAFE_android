@@ -1,4 +1,4 @@
-package com.example.acmcovidapplication.services;
+package com.example.acmcovidapplication;
 
 
 import android.Manifest;
