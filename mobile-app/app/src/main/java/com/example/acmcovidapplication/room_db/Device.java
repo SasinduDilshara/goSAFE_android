@@ -1,5 +1,6 @@
 package com.example.acmcovidapplication.room_db;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,6 +8,7 @@ import androidx.room.PrimaryKey;
 public class Device {
 
     @PrimaryKey
+    @NonNull
     private String id;
     private String time;
 

@@ -1,6 +1,7 @@
 package com.example.acmcovidapplication.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.acmcovidapplication.room_db.Device;
@@ -10,15 +11,18 @@ import com.example.acmcovidapplication.room_db.DeviceDatabase;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Room;
 
 public class DeviceRepository {
+    private static final String DB_NAME = "db_task";
     private DeviceDao deviceDao;
     private LiveData<List<Device>> allNotes;
+    private DeviceDatabase deviceDatabase;
 
-    public DeviceRepository(Application application) {
-        DeviceDatabase database = DeviceDatabase.getInstance(application);
-        deviceDao = database.deviceDao();
-        allNotes = deviceDao.getAllNotes();
+    public DeviceRepository(Context context) {
+        deviceDatabase = Room.databaseBuilder(context, DeviceDatabase.class, DB_NAME).build();
+        deviceDao = deviceDatabase.deviceDao();
+
     }
 
     public void insert(Device device) {
@@ -33,12 +37,18 @@ public class DeviceRepository {
         new DeleteNoteAsyncTask(deviceDao).execute(device);
     }
 
-    public void deleteAllNotes() {
+    public void deleteAllDevices() {
         new DeleteAllNotesAsyncTask(deviceDao).execute();
     }
 
-    public LiveData<List<Device>> getAllNotes() {
-        return allNotes;
+    public LiveData<Device> getDevice(String id) {
+        return deviceDatabase.deviceDao().getTask(id);
+    }
+
+
+
+    public LiveData<List<Device>> getAllDevices() {
+        return allNotes = deviceDao.getAllNotes();
     }
 
     private static class InsertNoteAsyncTask extends AsyncTask<Device, Void, Void> {
@@ -95,5 +105,32 @@ public class DeviceRepository {
             deviceDao.deleteAll();
             return null;
         }
+
+
     }
+
+    private  class CheckExistenceAsync extends AsyncTask<String, Void, Integer> {
+        private DeviceDao deviceDao;
+
+
+        private CheckExistenceAsync(DeviceDao deviceDao) {
+            this.deviceDao = deviceDao;
+
+
+        }
+
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+
+            return deviceDao.isExist(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+        }
+    }
+
 }
