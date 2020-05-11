@@ -2,7 +2,11 @@ package com.example.acmcovidapplication.services;
 
 import android.app.Notification;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -33,11 +37,25 @@ public class CustomService extends Service implements BeaconConsumer {
     public void onCreate() {
         super.onCreate();
 
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(mReceiver, filter);
 
-        setupBeacon();
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Log.d(TAG, "onCreate: devise bluetooth not supported");
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            Log.d(TAG, "onCreate: bluetooth is disabled");
+        } else {
+            mBluetoothAdapter.isEnabled();
+            setupBeacon();
+        }
+
 
 
     }
+
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -55,6 +73,7 @@ public class CustomService extends Service implements BeaconConsumer {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(mReceiver);
     }
 
     @Nullable
@@ -102,4 +121,31 @@ public class CustomService extends Service implements BeaconConsumer {
                 setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         beaconManager.bind(this);
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
+                        BluetoothAdapter.ERROR);
+                switch (state) {
+                    case BluetoothAdapter.STATE_OFF:
+                        //
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        //
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        setupBeacon();
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        //
+                        break;
+                }
+            }
+        }
+    };
+
 }
