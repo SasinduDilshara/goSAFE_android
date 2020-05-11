@@ -30,6 +30,7 @@ import androidx.core.app.NotificationCompat;
 
 import static android.content.ContentValues.TAG;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
+import static com.example.acmcovidapplication.Util.setBluetooth;
 
 public class CustomService extends Service implements BeaconConsumer {
     private BeaconManager beaconManager;
@@ -51,6 +52,7 @@ public class CustomService extends Service implements BeaconConsumer {
             Log.d(TAG, "onCreate: devise bluetooth not supported");
         } else if (!mBluetoothAdapter.isEnabled()) {
             Log.d(TAG, "onCreate: bluetooth is disabled");
+            setBluetooth(true);
         } else {
             mBluetoothAdapter.isEnabled();
             setupBeacon();
@@ -144,7 +146,8 @@ public class CustomService extends Service implements BeaconConsumer {
                         //
                         break;
                     case BluetoothAdapter.STATE_TURNING_OFF:
-                        //
+                        //when ever user try to turn off bluetooth this method swill turn it on again
+                        setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
                         setupBeacon();
