@@ -20,6 +20,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BeaconTransmitter;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,12 +34,16 @@ import static com.example.acmcovidapplication.App.CHANNEL_ID;
 public class CustomService extends Service implements BeaconConsumer {
     private BeaconManager beaconManager;
     private static final int FOREGROUND_ID = 1;
+    private BackgroundPowerSaver backgroundPowerSaver;
     @Override
     public void onCreate() {
         super.onCreate();
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
+
+        //int result = BeaconTransmitter.checkTransmissionSupported(this); // this return device supports to Transmit
+        backgroundPowerSaver = new BackgroundPowerSaver(this);
 
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -88,8 +93,11 @@ public class CustomService extends Service implements BeaconConsumer {
         beaconManager.addRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() > 0) {
-                    Log.i(TAG, "The first beacon I see is"+ beacons.iterator().next().getId1() + " about "+beacons.iterator().next().getDistance()+" meters away.");
+                for (Beacon beacon: beacons) {
+                    if (beacon.getDistance() < 5.0) {
+                        Log.d(TAG, "I see a beacon that is less than 5 meters away.");
+                        // Perform distance-specific action here
+                    }
                 }
             }
         });
@@ -117,8 +125,9 @@ public class CustomService extends Service implements BeaconConsumer {
         beaconManager = BeaconManager.getInstanceForApplication(this);
         // To detect proprietary beacons, you must add a line like below corresponding to your beacon
         // type.  Do a web search for "setBeaconLayout" to get the proper expression.
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+        beaconManager.getBeaconParsers().add(beaconParser);
+       /* beaconManager.setBackgroundBetweenScanPeriod(0);
+        beaconManager.setBackgroundScanPeriod(10000);*/
         beaconManager.bind(this);
     }
 
