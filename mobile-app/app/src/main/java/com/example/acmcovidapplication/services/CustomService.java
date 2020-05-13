@@ -26,12 +26,14 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import static android.content.ContentValues.TAG;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
@@ -49,6 +51,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         super.onCreate();
 
         deviceRepository = new DeviceRepository(this);
+
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
 
@@ -107,7 +110,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         Log.d(TAG, "I see a beacon that is less than 5 meters away.");
 
 
-                        deviceRepository.insert(new Device((beacon.getId1().toString()), System.currentTimeMillis() + ""));
+                        deviceRepository.insert(new Device((beacon.getId1().toString()), System.currentTimeMillis()));
 
 
                         // Perform distance-specific action here
@@ -117,6 +120,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         });
 
         try {
+            beaconManager.setForegroundScanPeriod(5000);
+            beaconManager.setForegroundBetweenScanPeriod(30000);
+            beaconManager.updateScanPeriods();
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {
         }
@@ -125,7 +131,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     //this will transmit the beacon
     private void setupBeacon() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("1a800e64-93aa-11ea-bb37-0242ac130002") // need to generate ids device specific
+                .setId1("7ef74b32-93dc-11ea-bb37-0242ac130003") // need to generate ids device specific
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
@@ -138,6 +144,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         beaconTransmitter.startAdvertising(beacon);
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
+
         // To detect proprietary beacons, you must add a line like below corresponding to your beacon
         // type.  Do a web search for "setBeaconLayout" to get the proper expression.
         beaconManager.getBeaconParsers().add(beaconParser);
@@ -179,3 +186,4 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         return null;
     }
 }
+
