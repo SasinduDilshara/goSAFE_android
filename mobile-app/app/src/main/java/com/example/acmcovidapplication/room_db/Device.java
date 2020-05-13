@@ -10,9 +10,9 @@ public class Device {
     @PrimaryKey
     @NonNull
     private String id;
-    private String time;
+    private long time;
 
-    public Device(String id, String time) {
+    public Device(String id, long time) {
         this.id = id;
         this.time = time;
     }
@@ -21,7 +21,7 @@ public class Device {
         return id;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 }

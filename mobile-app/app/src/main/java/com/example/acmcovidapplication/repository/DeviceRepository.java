@@ -14,13 +14,13 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 public class DeviceRepository {
-    private static final String DB_NAME = "db_task";
+
     private DeviceDao deviceDao;
     private LiveData<List<Device>> allNotes;
     private DeviceDatabase deviceDatabase;
 
     public DeviceRepository(Context context) {
-        deviceDatabase = Room.databaseBuilder(context, DeviceDatabase.class, DB_NAME).build();
+        deviceDatabase = DeviceDatabase.getInstance(context);
         deviceDao = deviceDatabase.deviceDao();
 
     }
