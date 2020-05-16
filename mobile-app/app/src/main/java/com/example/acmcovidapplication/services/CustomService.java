@@ -12,8 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.example.acmcovidapplication.R;
-import com.example.acmcovidapplication.repository.DeviceRepository;
-import com.example.acmcovidapplication.room_db.Device;
+import com.example.acmcovidapplication.db.DatabaseHelper;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -26,16 +25,13 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 
-import static android.content.ContentValues.TAG;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
@@ -44,13 +40,16 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
 
-    DeviceRepository deviceRepository;
+
+    private DatabaseHelper database_helper;
+    public static final String TAG = "DB_CHECKER";
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        deviceRepository = new DeviceRepository(this);
+        //deviceRepository = new DeviceRepository(this);
+        database_helper = new DatabaseHelper(this);
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
@@ -108,11 +107,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 for (Beacon beacon : beacons) {
                     if (beacon.getDistance() < 5.0) {
                         Log.d(TAG, "I see a beacon that is less than 5 meters away.");
-
-
-                        deviceRepository.insert(new Device((beacon.getId1().toString()), System.currentTimeMillis()));
-
-
+                        //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
+                        database_helper.addDevice(beacon.getId1().toString());
                         // Perform distance-specific action here
                     }
                 }
@@ -121,7 +117,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
         try {
             beaconManager.setForegroundScanPeriod(5000);
-            beaconManager.setForegroundBetweenScanPeriod(30000);
+            beaconManager.setForegroundBetweenScanPeriod(10000);
             beaconManager.updateScanPeriods();
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {
@@ -131,7 +127,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     //this will transmit the beacon
     private void setupBeacon() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("7ef74b32-93dc-11ea-bb37-0242ac130003") // need to generate ids device specific
+                .setId1("629af84972cebfdc494e04c1aefb0ca9") // need to generate ids device specific
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
