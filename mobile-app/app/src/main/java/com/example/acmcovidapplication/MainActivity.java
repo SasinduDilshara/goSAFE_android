@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.acmcovidapplication.services.CustomService;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     private static final String TAG = ".acmcovidapplication";
     private static final int PERMISSION_REQUEST_CODE = 1;
+
 
 
     @Override
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             new AppSettingsDialog.Builder(this).build().show();
         }
 
-        finish();
+//        finish();
         stopService(new Intent(this, CustomService.class));
 
     }

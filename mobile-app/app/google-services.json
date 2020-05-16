@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1048381444078",
+    "firebase_url": "https://covid-19-app-android.firebaseio.com",
+    "project_id": "covid-19-app-android",
+    "storage_bucket": "covid-19-app-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048381444078:android:29882ed8931a95b83508ff",
+        "android_client_info": {
+          "package_name": "com.example.acmcovidapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048381444078-raj6qbln121q9cp6rdhksa2kvh02bc9q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.acmcovidapplication",
+            "certificate_hash": "3321a8c5ea2df0c10847073c9451aadd81c03188"
+          }
+        },
+        {
+          "client_id": "1048381444078-h0ds2sj35vq18tn18v32nc2cq0gas67j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZw29mM8-3UWfg8qmtZR21rQ1mEVeBfak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048381444078-h0ds2sj35vq18tn18v32nc2cq0gas67j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
