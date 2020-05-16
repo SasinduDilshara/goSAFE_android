@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/up"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/appbar"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="57dp"
+                android:layout_height="66dp"
+                android:src="@drawable/logo_4" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="174dp"
+                android:layout_height="match_parent"
+                android:text=" goSAFE"
+                android:paddingVertical="6dp"
+                android:textAlignment="gravity"
+                android:textColor="#fff"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="241dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/welcome" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="YOU ARE JUST A SINGLE TAP AWAY FROM BEING A PART OF THE GIANT FORCE TO STOP COVID-19 SPREAD IN SRI LANKA"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+        <View
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginHorizontal="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="TURN ON BLUETOOTH IN YOUR MOBILE PHONE TO LET US ASSURE YOUR SAFETY"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="YOUR DATA WILL NOT BE ACCESSED UNLESS YOU ARE FOUND NEAR A PATIENT"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/round_button"
+            android:onClick="goToLogin"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:text="@string/welcome_btn">
+
+        </Button>
+    </LinearLayout>
+</RelativeLayout>
