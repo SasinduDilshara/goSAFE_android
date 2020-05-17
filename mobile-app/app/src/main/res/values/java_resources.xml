@@ -2,5 +2,9 @@
 <resources>
     <item format="float" name="max_distance" type="dimen">  2.0 </item>
     <integer name="scan_period"> 5000 </integer>
-    <integer name="time_between_scan"> 60000</integer>
+    <integer name="time_between_scan"> 10000 </integer>
+
+    <string name="is_allowed"> ALLOWED </string>
+    <string name="device_id">DEVICE ID</string>
+
 </resources>

@@ -54,8 +54,9 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     def core_version = "1.2.0"
-
     // Java language implementation
     implementation "androidx.core:core:$core_version"
+
+    implementation 'commons-codec:commons-codec:1.14'
 
 }
