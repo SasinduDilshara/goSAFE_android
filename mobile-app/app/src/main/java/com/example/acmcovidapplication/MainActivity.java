@@ -57,21 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     Intent i=new Intent(MainActivity.this,
-                            home.class);
+                            Home.class);
                     //Intent is used to switch from one activity to another.
 
                     startActivity(i);
                     //invoke the SecondActivity.
                 }
-
-                Intent i = new Intent(MainActivity.this,
-                        Home.class);
-                //Intent is used to switch from one activity to another.
-
-                startActivity(i);
-                //invoke the SecondActivity.
-
-
                 finish();
                 //the current activity will get finished.
             }
