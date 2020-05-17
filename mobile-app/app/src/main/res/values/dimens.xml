@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item format="float" name="max_distance" type="dimen">  2.0 </item>
+    <integer name="scan_period"> 5000 </integer>
+    <integer name="time_between_scan"> 60000</integer>
+</resources>

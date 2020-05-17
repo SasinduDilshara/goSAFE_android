@@ -14,6 +14,7 @@ import android.util.Log;
 import com.example.acmcovidapplication.R;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.DeviceModel;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -27,13 +28,17 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.xml.transform.sax.TemplatesHandler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
+import static com.example.acmcovidapplication.Util.isInternetAvailable;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
 
@@ -41,7 +46,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private BeaconManager beaconManager;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
-
+    private final double MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance );
+    private final int SCAN_PERIOD = this.getResources().getInteger(R.integer.scan_period);
+    private final int TIME_BETWEEB_TWO_SCAN = this.getResources().getInteger(R.integer.time_between_scan);
 
     private DatabaseHelper database_helper;
     public static final String TAG = "DB_CHECKER";
@@ -57,6 +64,13 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
         //deviceRepository = new DeviceRepository(this);
         database_helper = new DatabaseHelper(this);
+
+        for(DeviceModel deviceModel: database_helper.getNotes()){
+            Log.d(TAG, "onCreate: " +
+                    "\nid- " + deviceModel.getID() +
+                    "\nuser id - " + deviceModel.getUserID() +
+                    "\ntime - " + deviceModel.getTimeStamp() + "\n");
+        }
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
@@ -112,9 +126,11 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 for (Beacon beacon : beacons) {
-                    if (beacon.getDistance() < 5.0) {
+                    Log.d(TAG, "I see a beacon ");
+                    if (beacon.getDistance() < MAX_DISTANCE) {
                         Log.d(TAG, "I see a beacon that is less than 5 meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
+
                         database_helper.addDevice(beacon.getId1().toString());
                         // Perform distance-specific action here
                     }
@@ -123,8 +139,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         });
 
         try {
-            beaconManager.setForegroundScanPeriod(5000);
-            beaconManager.setForegroundBetweenScanPeriod(10000);
+            beaconManager.setForegroundScanPeriod(SCAN_PERIOD);
+            beaconManager.setForegroundBetweenScanPeriod(TIME_BETWEEB_TWO_SCAN);
             beaconManager.updateScanPeriods();
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {
@@ -134,7 +150,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     //this will transmit the beacon
     private void setupBeacon() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("629af84972cebfdc494e04c1aefb0ca9") // need to generate ids device specific
+                .setId1("7162b38907601ded8f2867a9d45286d5") // need to generate ids device specific
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
@@ -194,12 +210,17 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
     @Override
     public void networkAvailable() {
-        Log.d(TAG, "networkAvailable: ");
+        if(isInternetAvailable()){
+            database_helper.getNotes();
+
+            //database_helper.deleteAlldata();
+        }
     }
 
     @Override
     public void networkUnavailable() {
         Log.d(TAG, "networkUnavailable: ");
     }
+
 }
 
