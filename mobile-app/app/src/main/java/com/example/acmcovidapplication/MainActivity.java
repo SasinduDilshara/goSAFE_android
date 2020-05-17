@@ -14,6 +14,7 @@ import android.os.Build;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-
     private static int SPLASH_SCREEN_TIME_OUT=2000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             finish();
             stopService(new Intent(this, CustomService.class));
         }
+
 
 
 
