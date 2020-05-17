@@ -47,9 +47,7 @@
 
         <EditText
 
-            android:id="@+id/regNum"
-
-
+            android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your mobile number here"
