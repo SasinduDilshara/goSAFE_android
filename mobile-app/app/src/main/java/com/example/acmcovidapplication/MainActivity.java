@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+
 import android.view.WindowManager;
+
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
 
 
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 
 
 }
