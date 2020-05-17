@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.example.acmcovidapplication.R;
+import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
 
 import org.altbeacon.beacon.Beacon;
@@ -35,7 +36,8 @@ import androidx.lifecycle.LifecycleOwner;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
-public class CustomService extends Service implements BeaconConsumer, LifecycleOwner {
+
+public class CustomService extends Service implements BeaconConsumer, LifecycleOwner, NetworkStateReceiver.NetworkStateReceiverListener {
     private BeaconManager beaconManager;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -44,9 +46,14 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private DatabaseHelper database_helper;
     public static final String TAG = "DB_CHECKER";
 
+    private final NetworkStateReceiver  networkStateReceiver = new NetworkStateReceiver();
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        networkStateReceiver.addListener(this);
+        registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
         //deviceRepository = new DeviceRepository(this);
         database_helper = new DatabaseHelper(this);
@@ -176,10 +183,23 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         }
     };
 
+
+
+
     @NonNull
     @Override
     public Lifecycle getLifecycle() {
         return null;
+    }
+
+    @Override
+    public void networkAvailable() {
+        Log.d(TAG, "networkAvailable: ");
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Log.d(TAG, "networkUnavailable: ");
     }
 }
 
