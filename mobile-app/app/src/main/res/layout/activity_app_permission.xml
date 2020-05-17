@@ -40,22 +40,15 @@
                 android:src="@drawable/baseline_more_vert_white_18dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="586dp"
-            android:textAlignment="gravity"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="66dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="APP PERMISSIONS"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp" />
+            android:layout_height="123dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="APP PERMISSIONS"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
@@ -118,23 +111,19 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
-        </LinearLayout>
+
     </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
+    <Button
+        android:id="@+id/final_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/round_button"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/allow_btn"
-            android:onClick="allowAccess"
-            android:layout_marginBottom="30dp"/>
-    </LinearLayout>
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/round_button"
+        android:onClick="allowAccess"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"
+        android:text="I accept"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

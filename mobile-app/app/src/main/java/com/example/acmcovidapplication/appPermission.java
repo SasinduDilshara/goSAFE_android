@@ -16,11 +16,14 @@ public class appPermission extends AppCompatActivity {
 
     public void allowAccess(View view) {
         Intent intent = new Intent(appPermission.this, share.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         startActivity(intent);
     }
 
     public void goToAbout(View view) {
         Intent intent = new Intent(appPermission.this, about.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
