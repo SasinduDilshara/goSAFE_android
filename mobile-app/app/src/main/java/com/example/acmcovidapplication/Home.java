@@ -74,6 +74,5 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         }
 
 
-
     }
 }
