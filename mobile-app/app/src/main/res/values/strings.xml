@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">ACM covid application</string>
     <string name="title">title</string>
-    <string name="changeNumber"><u>CHANGE THE MOBILE NUMBER</u></string>
-    <string name="resendOTP"><u>RESEND CODE</u></string>
+    <string name="changeNumber">CHANGE THE MOBILE NUMBER</string>
+    <string name="resendOTP">RESEND CODE</string>
     <string name="permission_1">ALLOW <b>goSAFE</b> ACCESS BLUETOOTH</string>
     <string name="permission_2">ALLOW <b>goSAFE</b> SEND NOTIFICATIONS</string>
     <string name="permission_3">ALLOW <b>goSAFE</b> STORE YOUR MOBILE NUMBER IN ITS SECURE REGISTRY</string>
