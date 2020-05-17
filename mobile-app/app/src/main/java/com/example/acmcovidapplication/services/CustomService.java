@@ -46,9 +46,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private BeaconManager beaconManager;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private final double MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance );
-    private final int SCAN_PERIOD = this.getResources().getInteger(R.integer.scan_period);
-    private final int TIME_BETWEEB_TWO_SCAN = this.getResources().getInteger(R.integer.time_between_scan);
+    private  double MAX_DISTANCE          ;
+    private  int    SCAN_PERIOD           ;
+    private  int    TIME_BETWEEB_TWO_SCAN ;
 
     private DatabaseHelper database_helper;
     public static final String TAG = "DB_CHECKER";
@@ -58,7 +58,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     @Override
     public void onCreate() {
         super.onCreate();
-
+        setResources();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
@@ -221,6 +221,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public void networkUnavailable() {
         Log.d(TAG, "networkUnavailable: ");
     }
-
+    private void setResources(){
+        MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance );
+        SCAN_PERIOD = this.getResources().getInteger(R.integer.scan_period);
+        TIME_BETWEEB_TWO_SCAN = this.getResources().getInteger(R.integer.time_between_scan);
+    }
 }
 

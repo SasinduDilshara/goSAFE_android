@@ -14,6 +14,7 @@ public class share extends AppCompatActivity {
         setContentView(R.layout.activity_share);
     }
     public void shareApp(View view) {
+
     }
 
     public void goToAbout(View view) {
