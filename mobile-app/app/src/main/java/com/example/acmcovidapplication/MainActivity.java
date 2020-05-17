@@ -1,19 +1,10 @@
 package com.example.acmcovidapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
-import android.view.WindowManager;
-
-
-import android.Manifest;
-
-import android.os.Build;
-
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,22 +14,22 @@ import com.example.acmcovidapplication.db.DeviceModel;
 import com.example.acmcovidapplication.services.CustomService;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+import android.view.WindowManager;
+
+
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int PERMISSION_REQUEST_CODE = 1;
 
-    private static int SPLASH_SCREEN_TIME_OUT=2000;
+
+
+    private static int SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 //            Toast.makeText(getApplicationContext(),FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString(),Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(MainActivity.this, appPermission.class);
@@ -72,22 +64,18 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     //invoke the SecondActivity.
                 }
 
+                Intent i = new Intent(MainActivity.this,
+                        Home.class);
+                //Intent is used to switch from one activity to another.
+
+                startActivity(i);
+                //invoke the SecondActivity.
+
+
                 finish();
                 //the current activity will get finished.
             }
         }, SPLASH_SCREEN_TIME_OUT);
-
-
-        DatabaseHelper database_helper = new DatabaseHelper(this);
-        for (DeviceModel deviceModel: database_helper.getNotes()){
-            Log.d(TAG, "onCreate: user id- " + deviceModel.getUserID() + "\n" +
-                    "time - " + deviceModel.getTimeStamp());
-        }
-        String[] permissions = Util.getPermissions();
-        if (!EasyPermissions.hasPermissions(this, permissions)) {
-
-            EasyPermissions.requestPermissions(this, "We need permissions to continue", PERMISSION_REQUEST_CODE, permissions);
-        }
 
 
     }
@@ -99,42 +87,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
-        Intent serviceIntent = new Intent(this, CustomService.class);
-
-        ContextCompat.startForegroundService(this, serviceIntent);
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-
-            new AppSettingsDialog.Builder(this).build().show();
-
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            finish();
-            stopService(new Intent(this, CustomService.class));
-        }
-
-
-
-
-    }
 
 
 
