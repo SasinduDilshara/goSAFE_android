@@ -4,21 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-
-import android.widget.EditText;
-import android.widget.Toast;
-
-
-import com.example.acmcovidapplication.db.DatabaseHelper;
-import com.example.acmcovidapplication.db.DeviceModel;
-import com.example.acmcovidapplication.services.CustomService;
-import com.google.firebase.auth.FirebaseAuth;
-
-
 import android.view.WindowManager;
 
-
-import android.widget.EditText;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 

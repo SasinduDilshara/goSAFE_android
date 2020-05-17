@@ -6,7 +6,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -46,10 +51,16 @@ public class Util {
             return false;
         }
     }
-    public SharedPreferences.Editor getSharedPreferenceEditor(String name, Context context){
+    public static SharedPreferences.Editor getSharedPreferenceEditor(String name, Context context){
         SharedPreferences sp = context.getSharedPreferences(name, MODE_PRIVATE);
 
         return  sp.edit();
+    }
+
+    public static String generateHash(String string){
+        String s = new String(Hex.encodeHex(DigestUtils.md5(string)));
+         return s;
+
 
     }
 }
