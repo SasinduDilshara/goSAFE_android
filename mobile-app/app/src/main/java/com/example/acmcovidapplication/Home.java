@@ -29,6 +29,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             EasyPermissions.requestPermissions(this, "We need permissions to continue", PERMISSION_REQUEST_CODE, permissions);
         }
+        else{
+            Intent serviceIntent = new Intent(this, CustomService.class);
+
+            ContextCompat.startForegroundService(this, serviceIntent);
+        }
     }
 
     public void goToLogin(View view) {
