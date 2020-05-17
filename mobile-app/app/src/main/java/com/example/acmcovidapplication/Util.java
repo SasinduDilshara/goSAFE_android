@@ -3,8 +3,13 @@ package com.example.acmcovidapplication;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.SharedPreferences;
 
+import java.net.InetAddress;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
     public static boolean setBluetooth(boolean enable) {
@@ -30,5 +35,21 @@ public class Util {
             String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
             return permissions;
         }
+    }
+    public static boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public SharedPreferences.Editor getSharedPreferenceEditor(String name, Context context){
+        SharedPreferences sp = context.getSharedPreferences(name, MODE_PRIVATE);
+
+        return  sp.edit();
+
     }
 }
