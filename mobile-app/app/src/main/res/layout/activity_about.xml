@@ -48,7 +48,7 @@
             android:gravity="center"
             android:paddingHorizontal="20dp"
             android:paddingTop="20dp"
-            android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19."
+            android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
             android:textColor="@color/black"
             android:textSize="20sp" />
         <TextView
@@ -69,7 +69,7 @@
             android:gravity="center"
             android:paddingHorizontal="20dp"
             android:paddingTop="20dp"
-            android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of that, we always strive to use our skills for the betterment of the society. We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
+            android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society."
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
