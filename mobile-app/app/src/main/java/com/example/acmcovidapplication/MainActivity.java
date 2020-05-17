@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     Intent i=new Intent(MainActivity.this,
-                            home.class);
+                            Home.class);
                     //Intent is used to switch from one activity to another.
 
                     startActivity(i);
