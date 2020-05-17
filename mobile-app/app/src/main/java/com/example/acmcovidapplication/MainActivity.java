@@ -136,17 +136,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-////            Toast.makeText(getApplicationContext(),FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString(),Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(this, appPermission.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//
-//        }
-//    }
 
 
 }
