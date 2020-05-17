@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+
 
 public class otp_entering extends AppCompatActivity {
 
@@ -39,6 +43,15 @@ public class otp_entering extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_entering);
 
+        Button btn=findViewById(R.id.back_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         code_1 = findViewById(R.id.code_1);
         code_2 = findViewById(R.id.code_2);
         code_3 = findViewById(R.id.code_3);
@@ -51,6 +64,7 @@ public class otp_entering extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         sendVerificationCode(phoneNumber); //Method to send the verification code
+
     }
 
     public void appPermissions(View view) {
@@ -80,6 +94,11 @@ public class otp_entering extends AppCompatActivity {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithCredential(credential);
     }
+
+    public void resendCode(View view){
+
+    }
+
 
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
@@ -146,4 +165,5 @@ public class otp_entering extends AppCompatActivity {
             }
         }
     };
+
 }

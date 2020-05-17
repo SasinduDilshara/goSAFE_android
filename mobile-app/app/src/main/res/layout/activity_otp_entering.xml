@@ -35,15 +35,11 @@
                 android:textSize="30sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="123dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="25dp"
@@ -51,16 +47,19 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:text="@string/changeNumber"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="314dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/transparent_light_curved"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:layout_marginBottom="40dp"
+            android:text="@string/changeNumber"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,33 +172,33 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:text="@string/resendOTP"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <Button
+            android:layout_width="314dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/transparent_light_curved"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:layout_marginTop="40dp"
+            android:onClick="resendCode"
+            android:text="@string/resendOTP"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
+
+    <Button
+        android:id="@+id/final_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/round_button"
+        android:onClick="appPermissions"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/login_2_btn"
         android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="@drawable/round_button"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/login_1_btn"
-            android:textColor="#ffffff"
-            android:onClick="appPermissions"
-            android:layout_marginBottom="30dp"/>
-    </LinearLayout>
+    </Button>
 </RelativeLayout>
