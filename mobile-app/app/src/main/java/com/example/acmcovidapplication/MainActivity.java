@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 
 
+import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.DeviceModel;
 import com.example.acmcovidapplication.services.CustomService;
 
 import java.util.List;
@@ -30,7 +32,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    private static final String TAG = ".acmcovidapplication";
+    private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 1;
 
 
@@ -64,9 +66,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }, SPLASH_SCREEN_TIME_OUT);
 
 
-
-        String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        DatabaseHelper database_helper = new DatabaseHelper(this);
+        for (DeviceModel deviceModel: database_helper.getNotes()){
+            Log.d(TAG, "onCreate: user id- " + deviceModel.getUserID() + "\n" +
+                    "time - " + deviceModel.getTimeStamp());
+        }
+        String[] permissions = Util.getPermissions();
         if (!EasyPermissions.hasPermissions(this, permissions)) {
 
             EasyPermissions.requestPermissions(this, "We need permissions to continue", PERMISSION_REQUEST_CODE, permissions);
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.d(TAG, "onPermissionsGranted: called");
+
         Intent serviceIntent = new Intent(this, CustomService.class);
 
         ContextCompat.startForegroundService(this, serviceIntent);
@@ -99,12 +104,22 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+
             new AppSettingsDialog.Builder(this).build().show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            finish();
+            stopService(new Intent(this, CustomService.class));
         }
 
-        finish();
-        stopService(new Intent(this, CustomService.class));
+
 
     }
 
