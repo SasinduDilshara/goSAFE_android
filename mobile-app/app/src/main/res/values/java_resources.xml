@@ -17,4 +17,6 @@
 
     <integer name= "job_periodic">900000</integer>
 
+    <string name= "app_link">http://com.acmuom.covid19</string>
+
 </resources>

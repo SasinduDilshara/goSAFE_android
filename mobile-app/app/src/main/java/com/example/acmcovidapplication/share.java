@@ -17,9 +17,9 @@ public class share extends AppCompatActivity {
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        String link = getString(R.string.app_link);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, link);
         sendIntent.setType("text/plain");
-
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);
     }
