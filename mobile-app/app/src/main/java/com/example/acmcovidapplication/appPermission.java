@@ -35,6 +35,9 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
         }
+        else{
+            allowButton.setEnabled(true);
+        }
     }
 
     public void allowAccess(View view) {
