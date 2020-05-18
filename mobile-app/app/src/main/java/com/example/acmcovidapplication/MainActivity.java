@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.acmcovidapplication.db.SharedPeferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,10 +36,23 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            Toast.makeText(getApplicationContext(),FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, appPermission.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    String IS_ALLOWED = "ALLOWED";
+
+                    boolean accepted = SharedPeferenceManager.getSharedPreference(getPackageName(),
+                            getApplicationContext()).getBoolean(IS_ALLOWED,false);
+
+                    if(accepted){
+                        Intent intent = new Intent(MainActivity.this, share.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, appPermission.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+
+
 
                 } else {
                     Intent i = new Intent(MainActivity.this,
@@ -52,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 //the current activity will get finished.
             }
         }, SPLASH_SCREEN_TIME_OUT);
-
 
     }
 
