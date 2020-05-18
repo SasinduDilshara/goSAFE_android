@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    //TODO change below hardcode value to resource value
                     String IS_ALLOWED = "ALLOWED";
 
                     boolean accepted = SharedPeferenceManager.getSharedPreference(getPackageName(),
