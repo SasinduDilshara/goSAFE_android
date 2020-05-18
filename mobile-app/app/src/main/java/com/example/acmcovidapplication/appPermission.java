@@ -26,13 +26,17 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_permission);
-
-        allowButton = findViewById(R.id.final_btn);
-        allowButton.setEnabled(false);
         String[] permissions = Util.getPermissions();
+        allowButton = findViewById(R.id.final_btn);
+        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
+
         if (!EasyPermissions.hasPermissions(this, permissions)) {
+            allowButton.setEnabled(false);
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
+        }
+        else{
+            allowButton.setEnabled(true);
         }
     }
 
