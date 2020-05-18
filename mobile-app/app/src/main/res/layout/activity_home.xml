@@ -6,46 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/appbar"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="57dp"
+            android:layout_height="66dp"
+            android:src="@drawable/logo_4" />
 
-            <ImageView
-                android:layout_width="57dp"
-                android:layout_height="66dp"
-                android:src="@drawable/logo_4" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="174dp"
+            android:layout_height="match_parent"
+            android:paddingVertical="6dp"
+            android:text=" goSAFE"
+            android:textAlignment="gravity"
+            android:textColor="#fff"
+            android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="174dp"
-                android:layout_height="match_parent"
-                android:text=" goSAFE"
-                android:paddingVertical="6dp"
-                android:textAlignment="gravity"
-                android:textColor="#fff"
-                android:textSize="30sp" />
-        </LinearLayout>
+    </LinearLayout>
+
     <ImageView
-        android:layout_below="@+id/appbar"
-        android:layout_above="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/content"
+        android:layout_below="@+id/appbar"
         android:layout_marginVertical="20dp"
         android:src="@drawable/welcome" />
 
     <LinearLayout
-        android:gravity="bottom"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/content">
-
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -58,10 +58,10 @@
             android:textSize="20sp" />
 
         <View
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginHorizontal="8dp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"/>
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@color/colorPrimaryDark" />
 
         <TextView
             android:layout_width="match_parent"
@@ -90,16 +90,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:background="@drawable/round_button"
-            android:onClick="goToLogin"
-            android:textColor="#ffffff"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/welcome_btn"/>
+            android:background="@drawable/round_button"
+            android:onClick="goToLogin"
+            android:text="@string/welcome_btn"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
-
-
 
 </RelativeLayout>

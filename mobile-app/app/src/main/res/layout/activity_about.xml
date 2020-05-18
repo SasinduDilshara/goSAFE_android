@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".about">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/appbar"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="57dp"
@@ -26,19 +28,22 @@
                 android:id="@+id/title"
                 android:layout_width="174dp"
                 android:layout_height="match_parent"
-                android:text=" goSAFE"
                 android:paddingVertical="6dp"
+                android:text=" goSAFE"
                 android:textAlignment="gravity"
                 android:textColor="#fff"
                 android:textSize="30sp" />
         </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,6 +53,7 @@
                     android:text="About the developers"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="20dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,6 +63,7 @@
                     android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
                     android:textColor="@color/black"
                     android:textSize="20sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,18 +75,19 @@
                     android:textSize="20dp" />
 
                 <TextView
-                    android:includeFontPadding="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:gravity="center"
+                    android:includeFontPadding="true"
                     android:paddingHorizontal="20dp"
                     android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society."
                     android:textColor="@color/black"
                     android:textSize="20sp" />
-            </LinearLayout>
-        </ScrollView>
 
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
@@ -87,14 +95,14 @@
         android:id="@+id/back_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="8dp"
-        android:background="@drawable/round_button"
-        android:onClick="goToLogin"
-        android:textColor="#ffffff"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/round_button"
+        android:onClick="goToLogin"
         android:text="back"
-        android:layout_alignParentBottom="true">
-    </Button>
+        android:textColor="#ffffff"/>
+
 </RelativeLayout>
