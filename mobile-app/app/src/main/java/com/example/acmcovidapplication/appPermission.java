@@ -76,8 +76,8 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
-        allowButton.setEnabled(true);
+        String[] permissions = Util.getPermissions();
+        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
 
     }
 
