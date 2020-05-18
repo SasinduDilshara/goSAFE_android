@@ -57,7 +57,8 @@ public class CustomJobService extends JobService {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
 
-                // TODO: Upload the above list here
+                // TODO: Upload the above list here( List<DeviceModel> line 42 check before it is null or not)
+
 
                 // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
 

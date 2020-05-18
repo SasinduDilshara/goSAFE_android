@@ -19,6 +19,7 @@ import com.example.acmcovidapplication.R;
 import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.DeviceModel;
 import com.example.acmcovidapplication.db.SharedPeferenceManager;
 
 import org.altbeacon.beacon.Beacon;
@@ -32,6 +33,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -231,10 +233,12 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
 
     static class UploadTask extends AsyncTask<Context,Void, Context>{
-
+        List<DeviceModel> list;
         @Override
         protected Context doInBackground(Context... contexts) {
             Context context = contexts[0];
+            DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+            list =  databaseHelper.getNotes();
             boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
             if(isInternetConnectionAvailable){ return context;}
             return null;
@@ -246,7 +250,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             if(context != null){
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
-                // TODO: Upload the above list here
+                // TODO: Upload the above list here( List<DeviceModel> line 236 check before it is null or not)
 
                 // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
             }
