@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.DeviceModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "MainAcc";
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
@@ -53,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }, SPLASH_SCREEN_TIME_OUT);
 
+        /*for (DeviceModel deviceModel: DatabaseHelper.getInstance(this).getNotes()){
+            Log.d(TAG, "onCreate: \nID- " + deviceModel.getID()+ " int\n UserId- "+
+            deviceModel.getUserID() +" String\nTimeStamp- "+
+            deviceModel.getTimeStamp() + " String");
+        }*/
 
     }
 
