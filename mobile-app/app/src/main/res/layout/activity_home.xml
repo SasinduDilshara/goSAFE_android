@@ -70,31 +70,31 @@
     </LinearLayout>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_above="@+id/final_btn"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="YOUR DATA WILL NOT BE ACCESSED UNLESS YOU ARE FOUND NEAR A PATIENT"
-            android:textColor="@color/colorAccent"
-            android:textSize="15sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_above="@+id/final_btn"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="YOUR DATA WILL NOT BE ACCESSED UNLESS YOU ARE FOUND NEAR A PATIENT"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/final_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/round_button"
-            android:onClick="goToLogin"
-            android:textColor="#ffffff"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/welcome_btn"
-            android:layout_alignParentBottom="true"/>
+    <Button
+        android:id="@+id/final_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/round_button"
+        android:onClick="goToLogin"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/welcome_btn"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
