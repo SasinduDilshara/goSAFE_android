@@ -246,12 +246,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             if(context != null){
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
+                // TODO: Upload the above list here
 
-                //upload the list here
-
-
-
-                //databaseHelper.deleteAlldata(); // uncomment this line
+                // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
             }
         }
     }

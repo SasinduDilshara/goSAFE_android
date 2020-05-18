@@ -56,11 +56,11 @@ public class CustomJobService extends JobService {
             if(context != null){
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
-                //upload the list here
 
+                // TODO: Upload the above list here
 
+                // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
 
-                //databaseHelper.deleteAlldata(); // uncomment this line
             }
         }
     }

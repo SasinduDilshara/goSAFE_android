@@ -109,7 +109,9 @@ public class Util {
 
 
     public static String generateHash(String string){
-        String s = new String(Hex.encodeHex(DigestUtils.md5(string)));
+
+
+        String s = new String(Hex.encodeHex(DigestUtils.md5(string + "C@s@E"))); // refer string resource file in java_resource.xml
          return s;
 
 
