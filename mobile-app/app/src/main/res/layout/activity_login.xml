@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".login">
     <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,7 +37,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="123dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="25dp"
@@ -46,10 +47,7 @@
             android:textSize="20sp" />
 
         <EditText
-
-            android:id="@+id/regNum"
-
-
+            android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your mobile number here"
@@ -72,14 +70,18 @@
             android:text="YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT"
             android:textColor="@color/black"
             android:textSize="20sp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="236dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/phone" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_above="@+id/text"
+        android:layout_below="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/phone" />
+
     <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_gravity="center"

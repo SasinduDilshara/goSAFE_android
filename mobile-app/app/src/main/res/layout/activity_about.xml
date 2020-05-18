@@ -32,44 +32,55 @@
                 android:textColor="#fff"
                 android:textSize="30sp" />
         </LinearLayout>
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingVertical="10dp"
-            android:text="About the developers"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center"
-            android:paddingHorizontal="20dp"
-            android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingVertical="10dp"
-            android:text="About ACM"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="About the developers"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching that goal."
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="About ACM"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20dp" />
 
-        <TextView
-            android:includeFontPadding="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center"
-            android:paddingHorizontal="20dp"
-            android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society."
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+                <TextView
+                    android:includeFontPadding="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society."
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </ScrollView>
+
+
     </LinearLayout>
 
     <Button
