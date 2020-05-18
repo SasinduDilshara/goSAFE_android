@@ -6,6 +6,7 @@
 
     <string name="is_allowed"> ALLOWED </string>
     <string name="device_id">DEVICE ID</string>
+    <string name="extra_piece">C@s@E</string> <!-- this particular part will added to the mobile num-->
 
     <!-- database resource-->
     <string name="database_name"> User Log DB </string>
@@ -13,6 +14,7 @@
     <integer name="database_version"> 21 </integer>
 
 
-    <integer name="job_minimum_latency">2000</integer>
+
     <integer name= "job_periodic">900000</integer>
+
 </resources>
