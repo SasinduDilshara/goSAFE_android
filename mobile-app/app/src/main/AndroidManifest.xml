@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -43,5 +44,6 @@
         </receiver>
 
         <service android:name=".services.CustomService"/>
+        <service android:name=".services.CustomJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 </manifest>
