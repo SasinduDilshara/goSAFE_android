@@ -53,9 +53,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    def core_version = "1.2.0"
-    // Java language implementation
-    implementation "androidx.core:core:$core_version"
+    def work_version = "2.3.4"
+
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
+    implementation "androidx.work:work-gcm:$work_version"
 
     implementation 'commons-codec:commons-codec:1.14'
 

@@ -1,6 +1,7 @@
 package com.example.acmcovidapplication;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -12,9 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
-
 
 
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
@@ -42,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
-                }
-                else{
-                    Intent i=new Intent(MainActivity.this,
+                } else {
+                    Intent i = new Intent(MainActivity.this,
                             Home.class);
                     //Intent is used to switch from one activity to another.
 
@@ -65,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
-
 
 
 }
