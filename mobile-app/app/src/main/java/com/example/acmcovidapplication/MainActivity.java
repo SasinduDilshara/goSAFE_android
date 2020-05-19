@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    //TODO change below hardcode value to resource value
-//                    String IS_ALLOWED = "ALLOWED";
                     String IS_ALLOWED = getString(R.string.is_allowed);
                     boolean accepted = DatabaseHelper.getInstance(MainActivity.this).getAllowed();
 
