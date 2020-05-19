@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 
 import android.widget.Button;
@@ -44,8 +45,13 @@ public class otp_entering extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_entering);
+
+        Button btn_r=findViewById(R.id.resend_btn);
+        btn_r.setEnabled(false);
+        btn_r.setVisibility(View.GONE);
 
         Button btn=findViewById(R.id.back_btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +74,22 @@ public class otp_entering extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         sendVerificationCode(phoneNumber); //Method to send the verification code
+
+        new CountDownTimer(65000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                Button btn=findViewById(R.id.resend_btn);
+                btn.setEnabled(true);
+                btn.setVisibility(View.VISIBLE);
+                Toast.makeText(otp_entering.this, "The code we just sent to you has expired. Please retry.", Toast.LENGTH_LONG).show();
+
+            }
+
+        }.start();
 
     }
 
@@ -138,9 +160,26 @@ public class otp_entering extends AppCompatActivity {
     public void resendCode(View view){
         try{
             sendVerificationCode(phoneNumber);
+            Button btn=findViewById(R.id.resend_btn);
+            btn.setEnabled(false);
+            btn.setVisibility(View.GONE);
+            new CountDownTimer(65000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
+                    Button btn=findViewById(R.id.resend_btn);
+                    btn.setEnabled(true);
+                    btn.setVisibility(View.VISIBLE);
+                    Toast.makeText(otp_entering.this, "The code we just sent to you has expired. Please retry.", Toast.LENGTH_LONG).show();
+                }
+
+            }.start();
+
         }
         catch(Exception e) {
-            Toast.makeText(otp_entering.this, "Cannot resend the phone code at this time. Try again in 60 seconds.", Toast.LENGTH_LONG).show();
+            Toast.makeText(otp_entering.this, "Failed to resend the code. Try again in 60 seconds.", Toast.LENGTH_LONG).show();
         }
 
     }

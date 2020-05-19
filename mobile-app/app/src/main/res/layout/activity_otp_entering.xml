@@ -60,6 +60,18 @@
             android:textColor="@color/black"
             android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="The code we send to you will expire in 60 seconds"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,6 +184,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/resend_btn"
             android:layout_width="314dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
