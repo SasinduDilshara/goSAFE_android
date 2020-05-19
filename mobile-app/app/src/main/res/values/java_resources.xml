@@ -8,6 +8,7 @@
     <string name="device_id">DEVICE ID</string>
     <string name="extra_piece">C@s@E</string> <!-- this particular part will added to the mobile num-->
 
+
     <!-- database resource-->
     <string name="database_name"> User Log DB </string>
     <string name="table_name"> user_log_table </string>

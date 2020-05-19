@@ -108,12 +108,11 @@ public class Util {
     }
 
 
-    public static String generateHash(String string){
+    public static String generateHash(String string,Context context){
 
 
-        String s = new String(Hex.encodeHex(DigestUtils.md5(string + "C@s@E"))); // refer string resource file in java_resource.xml
-         return s;
-
+        String s = new String(Hex.encodeHex(DigestUtils.md5(string + context.getString(R.string.extra_piece)))); // refer string resource file in java_resource.xml
+        return s;
 
     }
 }
