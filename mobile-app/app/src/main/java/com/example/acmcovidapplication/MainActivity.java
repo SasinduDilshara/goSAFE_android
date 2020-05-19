@@ -8,8 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.acmcovidapplication.db.DatabaseHelper;
-import com.example.acmcovidapplication.db.DeviceModel;
+import com.example.acmcovidapplication.db.SharedPeferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "MainAcc";
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
@@ -39,10 +37,24 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            Toast.makeText(getApplicationContext(),FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, appPermission.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    //TODO change below hardcode value to resource value
+//                    String IS_ALLOWED = "ALLOWED";
+                    String IS_ALLOWED = getString(R.string.is_allowed);
+                    boolean accepted = SharedPeferenceManager.getSharedPreference(getPackageName(),
+                            getApplicationContext()).getBoolean(IS_ALLOWED,false);
+
+                    if(accepted){
+                        Intent intent = new Intent(MainActivity.this, share.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, appPermission.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+
+
 
                 } else {
                     Intent i = new Intent(MainActivity.this,
@@ -56,12 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 //the current activity will get finished.
             }
         }, SPLASH_SCREEN_TIME_OUT);
-
-        /*for (DeviceModel deviceModel: DatabaseHelper.getInstance(this).getNotes()){
-            Log.d(TAG, "onCreate: \nID- " + deviceModel.getID()+ " int\n UserId- "+
-            deviceModel.getUserID() +" String\nTimeStamp- "+
-            deviceModel.getTimeStamp() + " String");
-        }*/
 
     }
 
