@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import androidx.room.Database;
 
 import static com.example.acmcovidapplication.services.CustomService.TAG;
 
@@ -105,11 +108,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //delete the note
     public void delete(int ID) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        //deleting row
-        sqLiteDatabase.delete(TABLE_NAME, "ID=" + ID, null);
-        sqLiteDatabase.close();
+        new DeleteAsync(this).execute(ID);
     }
+
+
 
     //update the note
     public void updateNote(String title, String des, String ID) {
@@ -127,5 +129,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
+    private static class DeleteAsync extends AsyncTask<Integer,Void,Void>{
+        DatabaseHelper database;
 
+        public DeleteAsync(DatabaseHelper database){
+            this.database = database;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+
+            SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+            //deleting row
+            sqLiteDatabase.delete(TABLE_NAME, "ID=" + integers[0], null);
+            sqLiteDatabase.close();
+            return null;
+        }
+    }
 }

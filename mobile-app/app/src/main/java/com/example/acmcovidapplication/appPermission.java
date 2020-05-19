@@ -21,7 +21,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class appPermission extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final int PERMISSION_REQUEST_CODE = 1;
     Button allowButton;
-    boolean btnEnabled;
     String[] permissions = Util.getPermissions();
 
     @Override
@@ -31,15 +30,13 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
 
         allowButton = findViewById(R.id.final_btn);
 
-        btnEnabled = EasyPermissions.hasPermissions(this, permissions);
+
         if (!EasyPermissions.hasPermissions(this, permissions)) {
-            btnEnabled= false;
+
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
         }
-        else{
-            btnEnabled = true;
-        }
+
 
     }
 
@@ -68,7 +65,6 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     protected void onResume() {
         super.onResume();
         allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
-
     }
 
     public void goToAbout(View view) {
