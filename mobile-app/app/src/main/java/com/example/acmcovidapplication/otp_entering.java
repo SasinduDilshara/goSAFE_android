@@ -1,21 +1,15 @@
 package com.example.acmcovidapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-
 import android.widget.Button;
-
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.acmcovidapplication.db.SharedPeferenceManager;
+import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -28,6 +22,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class otp_entering extends AppCompatActivity {
@@ -196,10 +193,11 @@ public class otp_entering extends AppCompatActivity {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                             startActivity(intent);
-                            String s = Util.generateHash(phoneNumber,otp_entering.this);
+                            String userId = Util.generateHash(phoneNumber,otp_entering.this);
                             Context context = otp_entering.this;
-                            Editor editor =   SharedPeferenceManager.getSharedPreference(context.getPackageName(),context).edit();
-                            editor.putString(context.getString(R.string.device_id),s).apply();
+                            DatabaseHelper.getInstance(otp_entering.this).insertUserId(userId);
+
+
 
                         } else {
                             Toast.makeText(otp_entering.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

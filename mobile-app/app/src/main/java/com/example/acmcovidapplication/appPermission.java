@@ -1,12 +1,13 @@
 package com.example.acmcovidapplication;
 
+import android.app.job.JobScheduler;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.acmcovidapplication.db.SharedPeferenceManager;
+import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.services.CustomService;
 
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -29,10 +29,16 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
         setContentView(R.layout.activity_app_permission);
 
         allowButton = findViewById(R.id.final_btn);
+        stopService( new Intent(this, CustomService.class));
+        JobScheduler scheduler = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            scheduler.cancel(123);
+        }
 
 
         if (!EasyPermissions.hasPermissions(this, permissions)) {
-
+            DatabaseHelper.getInstance(this).insertAllowed(false);
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
         }
@@ -44,20 +50,10 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
         Intent intent = new Intent(appPermission.this, share.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        String IS_ALLOWED = this.getResources().getString(R.string.is_allowed);
-
-        SharedPeferenceManager.getSharedPreference(getPackageName(),
-                getApplicationContext()).edit().putBoolean(IS_ALLOWED, true).apply();
 
 
-        Intent serviceIntent = new Intent(this, CustomService.class);
+        DatabaseHelper.getInstance(this).insertAllowed(true);
 
-        ContextCompat.startForegroundService(this, serviceIntent);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Util.scheduleJobHelper(this);
-        }
 
     }
 

@@ -7,7 +7,6 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.db.DatabaseHelper;
@@ -45,7 +44,7 @@ public class CustomJobService extends JobService {
         protected Context doInBackground(Context... contexts) {
             Context context = contexts[0];
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-            list =  databaseHelper.getNotes();
+            list =  databaseHelper.getDevices();
             boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
             if(isInternetConnectionAvailable){ return context;}
             return null;
@@ -59,7 +58,7 @@ public class CustomJobService extends JobService {
 
                 FirebaseHelper firebaseHelper = new FirebaseHelper();
                 // TODO: Upload the above list here( List<DeviceModel> line 42 check before it is null or not)
-                if (list!= null){
+                if (list != null){
                     for(DeviceModel deviceModel:list){
                         firebaseHelper.update(deviceModel, databaseHelper);
                     }
