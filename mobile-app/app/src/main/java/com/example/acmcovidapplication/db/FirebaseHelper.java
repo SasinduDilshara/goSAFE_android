@@ -24,26 +24,26 @@ public class FirebaseHelper {
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     //add this when detected
-    public void update(String id,String timestamp) {
+    public void update(final DeviceModel deviceModel, final DatabaseHelper databaseHelper) {
 
         //timestamp format --> "2020-05-18 07:42:24"
         String uid = firebaseUser.getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = dateFormat.parse(timestamp);
-            System.out.println(date);
+            Date date = dateFormat.parse(deviceModel.getTimeStamp());
+//            System.out.println(date);
             Map<String, Object> data = new HashMap<>();
             data.put("timestamp", date);
 
             db.collection("users")
                     .document(uid)
-                    .collection(id)
+                    .collection(deviceModel.getUserID())
                     .document()
                     .set(data)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            System.out.println("Success");
+                            databaseHelper.delete(deviceModel.getID());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -79,14 +79,6 @@ public class FirebaseHelper {
                     }
                 });
     }
-
-//    public void test(){
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("20yy-mm-dd HH:mm:ss");
-//        Date d = dateFormat.parse(("2020-05-18 07:42:24");
-//
-//
-//    }
-
 
 
 }

@@ -57,8 +57,13 @@ public class CustomJobService extends JobService {
             if(context != null){
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
-
+                FirebaseHelper firebaseHelper = new FirebaseHelper();
                 // TODO: Upload the above list here( List<DeviceModel> line 42 check before it is null or not)
+                if (list!= null){
+                    for(DeviceModel deviceModel:list){
+                        firebaseHelper.update(deviceModel, databaseHelper);
+                    }
+                }
 
 
                 // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
