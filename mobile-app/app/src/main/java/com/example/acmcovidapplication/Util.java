@@ -7,7 +7,6 @@ import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -19,16 +18,11 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import androidx.annotation.RequiresApi;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
-import static android.content.Context.MODE_PRIVATE;
 import static com.example.acmcovidapplication.services.CustomService.TAG;
 
 public class Util {

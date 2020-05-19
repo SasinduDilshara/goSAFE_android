@@ -91,9 +91,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Foreground service running")
+                .setContentTitle(this.getResources().getString(R.string.app_name)  + " Active")
                 .setContentText("This service will run always in the device")
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.app_icon)
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
