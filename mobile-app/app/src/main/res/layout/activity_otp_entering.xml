@@ -38,27 +38,13 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="123dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="25dp"
             android:text="ENTER YOUR OTP NUMBER HERE"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/back_btn"
-            android:layout_width="314dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/transparent_light_curved"
-            android:gravity="center"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="@string/changeNumber"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -184,11 +170,26 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/back_btn"
+            android:layout_width="314dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/transparent_light_curved"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="@string/changeNumber"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <Button
             android:id="@+id/resend_btn"
             android:layout_width="314dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/transparent_light_curved"
             android:gravity="center"
             android:onClick="resendCode"

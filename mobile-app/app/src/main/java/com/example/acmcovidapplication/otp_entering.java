@@ -45,9 +45,20 @@ public class otp_entering extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_entering);
 
-        Button btn_r=findViewById(R.id.resend_btn);
-        btn_r.setEnabled(false);
-        btn_r.setVisibility(View.GONE);
+        CountDownTimer cdt1=new CountDownTimer(2000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+            public void onFinish() {
+                Button btn_r=findViewById(R.id.resend_btn);
+                btn_r.setEnabled(false);
+                btn_r.setVisibility(View.GONE);
+            }
+        }.start();
+        if (cdt1 == null) {
+            cdt1.cancel();
+        }
 
         Button btn=findViewById(R.id.back_btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +94,9 @@ public class otp_entering extends AppCompatActivity {
                 Toast.makeText(otp_entering.this, "The code we just sent to you has expired. Please retry.", Toast.LENGTH_LONG).show();
             }
         }.start();
-        cdt.cancel();
+        if (cdt == null) {
+            cdt.cancel();
+        }
     }
 
     public void appPermissions(View view) {
@@ -169,7 +182,9 @@ public class otp_entering extends AppCompatActivity {
                 }
 
             }.start();
-            ctd.cancel();
+            if (ctd == null) {
+                ctd.cancel();
+            }
         }
         catch(Exception e) {
             Toast.makeText(otp_entering.this, "Failed to resend the code. Try again in 60 seconds.", Toast.LENGTH_LONG).show();
@@ -183,17 +198,12 @@ public class otp_entering extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             Intent intent = new Intent(otp_entering.this, appPermission.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
                             startActivity(intent);
                             String userId = Util.generateHash(phoneNumber,otp_entering.this);
                             Context context = otp_entering.this;
                             DatabaseHelper.getInstance(otp_entering.this).insertUserId(userId);
-
-
-
                         } else {
                             Toast.makeText(otp_entering.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -254,9 +264,7 @@ public class otp_entering extends AppCompatActivity {
                 // ...
             } else if (e instanceof FirebaseTooManyRequestsException) {
                 Toast.makeText(getApplicationContext(),"The SMS quota for the project has been exceeded",Toast.LENGTH_LONG).show();
-
             }
         }
     };
-
 }
