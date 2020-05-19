@@ -1,32 +1,20 @@
 package com.example.acmcovidapplication;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-
-import android.widget.EditText;
-import android.widget.Toast;
-
-
-import com.example.acmcovidapplication.db.DatabaseHelper;
-import com.example.acmcovidapplication.db.DeviceModel;
-import com.example.acmcovidapplication.services.CustomService;
-import com.google.firebase.auth.FirebaseAuth;
-
-
 import android.view.WindowManager;
 
-
-import android.widget.EditText;
+import com.example.acmcovidapplication.db.SharedPeferenceManager;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
-
 
 
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
@@ -49,14 +37,27 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            Toast.makeText(getApplicationContext(),FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, appPermission.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    //TODO change below hardcode value to resource value
+//                    String IS_ALLOWED = "ALLOWED";
+                    String IS_ALLOWED = getString(R.string.is_allowed);
+                    boolean accepted = SharedPeferenceManager.getSharedPreference(getPackageName(),
+                            getApplicationContext()).getBoolean(IS_ALLOWED,false);
 
-                }
-                else{
-                    Intent i=new Intent(MainActivity.this,
+                    if(accepted){
+                        Intent intent = new Intent(MainActivity.this, share.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, appPermission.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+
+
+
+                } else {
+                    Intent i = new Intent(MainActivity.this,
                             Home.class);
                     //Intent is used to switch from one activity to another.
 
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, SPLASH_SCREEN_TIME_OUT);
 
-
     }
 
 
@@ -77,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
-
 
 
 }

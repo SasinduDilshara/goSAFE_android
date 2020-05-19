@@ -7,13 +7,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
 import com.example.acmcovidapplication.R;
+import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.DeviceModel;
+import com.example.acmcovidapplication.db.SharedPeferenceManager;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -26,10 +33,13 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -37,26 +47,35 @@ import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
 
-public class CustomService extends Service implements BeaconConsumer, LifecycleOwner, NetworkStateReceiver.NetworkStateReceiverListener {
+public class CustomService extends Service implements BeaconConsumer, LifecycleOwner,
+        NetworkStateReceiver.NetworkStateReceiverListener  {
     private BeaconManager beaconManager;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
-
+    private  double MAX_DISTANCE;
+    private  int    SCAN_PERIOD;
+    private  int    TIME_BETWEEB_TWO_SCAN;
+    public static final String BEACON_LAYOUT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
+    public String ALLOWED;
 
     private DatabaseHelper database_helper;
     public static final String TAG = "DB_CHECKER";
 
     private final NetworkStateReceiver  networkStateReceiver = new NetworkStateReceiver();
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate() {
         super.onCreate();
-
+        setResources();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
+
         //deviceRepository = new DeviceRepository(this);
-        database_helper = new DatabaseHelper(this);
+        database_helper =  DatabaseHelper.getInstance(this);
+
+
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
@@ -64,17 +83,6 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         //int result = BeaconTransmitter.checkTransmissionSupported(this); // this return device supports to Transmit
         backgroundPowerSaver = new BackgroundPowerSaver(this);
 
-
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            Log.d(TAG, "onCreate: devise bluetooth not supported");
-        } else if (!mBluetoothAdapter.isEnabled()) {
-            Log.d(TAG, "onCreate: bluetooth is disabled");
-            setBluetooth(true);
-        } else {
-            mBluetoothAdapter.isEnabled();
-            setupBeacon();
-        }
 
 
     }
@@ -90,6 +98,23 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Log.d(TAG, "onCreate: devise bluetooth not supported");
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            Log.d(TAG, "onCreate: bluetooth is disabled");
+            setBluetooth(true);
+        } else {
+            if (SharedPeferenceManager.getSharedPreference(getPackageName(),
+                    this).getBoolean(ALLOWED,true)){
+                setupBeacon();
+            }
+            else {
+                stopSelf();
+            }
+
+        }
         return START_STICKY;
     }
 
@@ -112,9 +137,11 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 for (Beacon beacon : beacons) {
-                    if (beacon.getDistance() < 5.0) {
-                        Log.d(TAG, "I see a beacon that is less than 5 meters away.");
+                    Log.d(TAG, "I see a beacon ");
+                    if (beacon.getDistance() < MAX_DISTANCE) {
+                        Log.d(TAG, "I see a beacon that is less than" +MAX_DISTANCE + " meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
+
                         database_helper.addDevice(beacon.getId1().toString());
                         // Perform distance-specific action here
                     }
@@ -123,8 +150,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         });
 
         try {
-            beaconManager.setForegroundScanPeriod(5000);
-            beaconManager.setForegroundBetweenScanPeriod(10000);
+            beaconManager.setForegroundScanPeriod(SCAN_PERIOD);
+            beaconManager.setForegroundBetweenScanPeriod(TIME_BETWEEB_TWO_SCAN);
             beaconManager.updateScanPeriods();
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {
@@ -134,7 +161,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     //this will transmit the beacon
     private void setupBeacon() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("629af84972cebfdc494e04c1aefb0ca9") // need to generate ids device specific
+                .setId1("7162b38907601ded8f2867a9d45286d5") // need to generate ids device specific
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
@@ -142,7 +169,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 .setDataFields(Arrays.asList(new Long[]{0l}))
                 .build();
         BeaconParser beaconParser = new BeaconParser()
-                .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
+                .setBeaconLayout(BEACON_LAYOUT);
         BeaconTransmitter beaconTransmitter = new BeaconTransmitter(this, beaconParser);
         beaconTransmitter.startAdvertising(beacon);
 
@@ -194,12 +221,49 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
     @Override
     public void networkAvailable() {
-        Log.d(TAG, "networkAvailable: ");
+        new UploadTask().execute(this);
     }
 
     @Override
     public void networkUnavailable() {
         Log.d(TAG, "networkUnavailable: ");
     }
+
+
+
+
+    static class UploadTask extends AsyncTask<Context,Void, Context>{
+        List<DeviceModel> list;
+        @Override
+        protected Context doInBackground(Context... contexts) {
+            Context context = contexts[0];
+            DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+            list =  databaseHelper.getNotes();
+            boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
+            if(isInternetConnectionAvailable){ return context;}
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Context context) {
+            super.onPostExecute(context);
+            if(context != null){
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+
+                // TODO: Upload the above list here( List<DeviceModel> line 236 check before it is null or not)
+
+                // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
+            }
+        }
+    }
+
+    private void setResources(){
+        MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance );
+        SCAN_PERIOD = this.getResources().getInteger(R.integer.scan_period);
+        TIME_BETWEEB_TWO_SCAN = this.getResources().getInteger(R.integer.time_between_scan);
+        ALLOWED = getResources().getString(R.string.is_allowed);
+    }
+
+
 }
 

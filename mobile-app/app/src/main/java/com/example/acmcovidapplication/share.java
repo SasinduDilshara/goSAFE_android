@@ -14,6 +14,14 @@ public class share extends AppCompatActivity {
         setContentView(R.layout.activity_share);
     }
     public void shareApp(View view) {
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        String link = getString(R.string.app_link);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, link);
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
     public void goToAbout(View view) {

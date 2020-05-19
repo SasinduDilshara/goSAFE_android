@@ -37,6 +37,7 @@ public class otp_entering extends AppCompatActivity {
     public String phoneNumber;
     private String verificationId;
     private FirebaseAuth mAuth;
+    PhoneAuthProvider.ForceResendingToken token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +79,51 @@ public class otp_entering extends AppCompatActivity {
 
         if (code.isEmpty() || code.length() < 6) {
 
-            code_1.setError("Enter the six digit code");
-            code_1.requestFocus();
-            return;
+            if(code.length() == 0)
+            {
+                code_1.setError("Enter the six digit code");
+                code_1.requestFocus();
+                return;
+            }
+            else if(code.length() == 1)
+            {
+                code_2.setError("Enter the six digit code");
+                code_2.requestFocus();
+                return;
+            }
+            else if(code.length() == 2)
+            {
+                code_3.setError("Enter the six digit code");
+                code_3.requestFocus();
+                return;
+            }
+            else if(code.length() == 3)
+            {
+                code_4.setError("Enter the six digit code");
+                code_4.requestFocus();
+                return;
+            }
+            else if(code.length() == 4)
+            {
+                code_5.setError("Enter the six digit code");
+                code_5.requestFocus();
+                return;
+            }
+            else if(code.length() == 5)
+            {
+                code_6.setError("Enter the six digit code");
+                code_6.requestFocus();
+                return;
+            }
+            else{
+                code_1.setError("Enter the six digit code");
+                code_1.requestFocus();
+                return;
+            }
+
         }
         verifyCode(code);
 
-
-//        Intent intent = new Intent(otp_entering.this, appPermission.class);
-//        startActivity(intent);
     }
 
 
@@ -96,6 +133,12 @@ public class otp_entering extends AppCompatActivity {
     }
 
     public void resendCode(View view){
+        try{
+            sendVerificationCode(phoneNumber);
+        }
+        catch(Exception e) {
+            Toast.makeText(otp_entering.this, "Cannot resend the phone code at this time. Try again in 60 seconds.", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -131,6 +174,16 @@ public class otp_entering extends AppCompatActivity {
 
     }
 
+    private void resendVerificationCode(String phoneNumber) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallBack,         // OnVerificationStateChangedCallbacks
+                token);             // ForceResendingToken from callbacks
+    }
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -138,6 +191,7 @@ public class otp_entering extends AppCompatActivity {
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
+            token = forceResendingToken;
         }
 
         @Override

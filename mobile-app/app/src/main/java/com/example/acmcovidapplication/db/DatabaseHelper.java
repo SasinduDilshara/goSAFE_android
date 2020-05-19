@@ -15,13 +15,25 @@ import static com.example.acmcovidapplication.services.CustomService.TAG;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //database name
-    public static final String DATABASE_NAME = "final";
+    private static final String DATABASE_NAME  = "final";
     //database version
-    public static final int DATABASE_VERSION = 20;
-    public static final String TABLE_NAME = "final_tb";
+    private static final int DATABASE_VERSION  = 20;
+    private static final String TABLE_NAME     = "final_tb";
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+    private static DatabaseHelper  databaseHelper = null;
+    public static DatabaseHelper getInstance(Context context){
+        if(databaseHelper == null){
+            synchronized (DatabaseHelper.class){
+                if (databaseHelper == null){
+                    databaseHelper = new DatabaseHelper(context);
+                }
+            }
+        }
+
+        return databaseHelper;
     }
 
     @Override
