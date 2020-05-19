@@ -20,6 +20,7 @@ import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.db.DeviceModel;
+import com.example.acmcovidapplication.db.FirebaseHelper;
 import com.example.acmcovidapplication.db.SharedPeferenceManager;
 
 import org.altbeacon.beacon.Beacon;
@@ -251,7 +252,12 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 // TODO: Upload the above list here( List<DeviceModel> line 236 check before it is null or not)
-
+                FirebaseHelper firebaseHelper = new FirebaseHelper();
+                if (list!= null){
+                    for(DeviceModel deviceModel:list){
+                        firebaseHelper.update(deviceModel, databaseHelper);
+                    }
+                }
                 // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
             }
         }
