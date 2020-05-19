@@ -1,3 +1,4 @@
+/*
 package com.example.acmcovidapplication.db;
 
 import android.content.Context;
@@ -25,3 +26,4 @@ public class SharedPeferenceManager {
 
     }
 }
+*/
