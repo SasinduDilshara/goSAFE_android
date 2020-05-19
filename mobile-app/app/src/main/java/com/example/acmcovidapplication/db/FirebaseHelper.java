@@ -1,8 +1,6 @@
 package com.example.acmcovidapplication.db;
 
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,9 +9,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 
 public class FirebaseHelper {
@@ -27,8 +28,14 @@ public class FirebaseHelper {
         //timestamp format --> "2020-05-18 07:42:24"
         String uid = firebaseUser.getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         try {
             Date date = dateFormat.parse(deviceModel.getTimeStamp());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.HOUR_OF_DAY,5);
+            calendar.add(Calendar.MINUTE,30);
+            date = calendar.getTime();
 //            System.out.println(date);
             Map<String, Object> data = new HashMap<>();
             data.put("timestamp", date);
