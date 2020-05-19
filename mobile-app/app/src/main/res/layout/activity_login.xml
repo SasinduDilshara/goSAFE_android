@@ -47,21 +47,37 @@
             android:text="ENTER YOUR MOBILE NUMBER HERE"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+         <TextView
+             android:id="@+id/init"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/square_background"
+             android:padding="8dp"
+             android:textColor="@color/colorPrimaryDark"
+             android:text="+94"
+             android:textSize="30sp"/>
         <EditText
+            android:layout_toEndOf="@+id/init"
             android:id="@+id/number"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:background="@drawable/transparent_round"
-            android:hint="Enter your mobile number here"
+            android:background="@drawable/square_background"
+            android:hint="_________"
             android:inputType="number"
-            android:maxLength="10"
-            android:padding="8dp"
+            android:maxLength="9"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="12dp"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
+            android:textSize="30sp"
+            android:layout_toRightOf="@+id/init" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"

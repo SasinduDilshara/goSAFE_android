@@ -84,6 +84,13 @@
                     android:text="ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society."
                     android:textColor="@color/black"
                     android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acm" />
 
             </LinearLayout>
 
