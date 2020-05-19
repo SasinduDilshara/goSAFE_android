@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.db.DeviceModel;
+import com.example.acmcovidapplication.db.FirebaseHelper;
 
 import java.util.List;
 
