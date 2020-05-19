@@ -1,14 +1,13 @@
 package com.example.acmcovidapplication;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.acmcovidapplication.db.SharedPeferenceManager;
+
+import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     //TODO change below hardcode value to resource value
 //                    String IS_ALLOWED = "ALLOWED";
                     String IS_ALLOWED = getString(R.string.is_allowed);
-                    boolean accepted = SharedPeferenceManager.getSharedPreference(getPackageName(),
-                            getApplicationContext()).getBoolean(IS_ALLOWED,false);
+                    boolean accepted = DatabaseHelper.getInstance(MainActivity.this).getAllowed();
 
                     if(accepted){
                         Intent intent = new Intent(MainActivity.this, share.class);

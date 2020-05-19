@@ -7,8 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
@@ -21,7 +19,7 @@ import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.db.DeviceModel;
 import com.example.acmcovidapplication.db.FirebaseHelper;
-import com.example.acmcovidapplication.db.SharedPeferenceManager;
+
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -32,7 +30,6 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -72,12 +69,11 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         setResources();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-        deviceId = SharedPeferenceManager.getSharedPreference(this.getPackageName(),this)
-                .getString(this.getResources().getString(R.string.device_id),null);
+
 
         //deviceRepository = new DeviceRepository(this);
         database_helper =  DatabaseHelper.getInstance(this);
-
+        deviceId = database_helper.getInstance(this).getUserId();
 
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -109,13 +105,11 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             Log.d(TAG, "onCreate: bluetooth is disabled");
             setBluetooth(true);
         } else {
-            if (SharedPeferenceManager.getSharedPreference(getPackageName(),
-                    this).getBoolean(ALLOWED,false) && deviceId != null){
+            if (database_helper.getAllowed()
+                     && deviceId != null){
                 setupBeacon(deviceId);
             }
-            else {
-                stopSelf();
-            }
+
 
         }
         return START_STICKY;
@@ -203,7 +197,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        setupBeacon(deviceId);
+                        if(deviceId != null) setupBeacon(deviceId);
+
                         break;
                     case BluetoothAdapter.STATE_TURNING_ON:
                         //
@@ -241,7 +236,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         protected Context doInBackground(Context... contexts) {
             Context context = contexts[0];
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-            list =  databaseHelper.getNotes();
+            list =  databaseHelper.getDevices();
             boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
             if(isInternetConnectionAvailable){ return context;}
             return null;

@@ -4,15 +4,16 @@
     <integer name="scan_period"> 5000 </integer>
     <integer name="time_between_scan"> 10000 </integer>
 
-    <string name="is_allowed"> ALLOWED </string>
+    <string name="is_allowed"> IS_ALLOWED </string>
     <string name="device_id">DEVICE ID</string>
     <string name="extra_piece">C@s@E</string> <!-- this particular part will added to the mobile num-->
 
 
     <!-- database resource-->
-    <string name="database_name"> User Log DB </string>
-    <string name="table_name"> user_log_table </string>
-    <integer name="database_version"> 21 </integer>
+    <string name="database_name"> user_log_db </string>
+    <string name="user_log_table_name"> user_log_table </string>
+    <string name="app_data_table_name"> app_data_table </string>
+    <integer name="database_version"> 24 </integer>
 
 
 
