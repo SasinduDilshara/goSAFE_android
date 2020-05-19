@@ -45,6 +45,19 @@ public class otp_entering extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_entering);
 
+        Button btn_r=findViewById(R.id.resend_btn);
+        btn_r.setEnabled(false);
+        btn_r.setVisibility(View.GONE);
+
+        Button btn=findViewById(R.id.back_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         code_1 = findViewById(R.id.code_1);
         code_2 = findViewById(R.id.code_2);
         code_3 = findViewById(R.id.code_3);
