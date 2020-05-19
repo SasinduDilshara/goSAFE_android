@@ -45,30 +45,6 @@ public class otp_entering extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_entering);
 
-        CountDownTimer cdt1=new CountDownTimer(2000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-            public void onFinish() {
-                Button btn_r=findViewById(R.id.resend_btn);
-                btn_r.setEnabled(false);
-                btn_r.setVisibility(View.GONE);
-            }
-        }.start();
-        if (cdt1 == null) {
-            cdt1.cancel();
-        }
-
-        Button btn=findViewById(R.id.back_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
         code_1 = findViewById(R.id.code_1);
         code_2 = findViewById(R.id.code_2);
         code_3 = findViewById(R.id.code_3);
