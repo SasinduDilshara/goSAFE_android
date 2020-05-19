@@ -28,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class otp_entering extends AppCompatActivity {
-
     private EditText code_1;
     private EditText code_2;
     private EditText code_3;
@@ -72,22 +71,19 @@ public class otp_entering extends AppCompatActivity {
 
         sendVerificationCode(phoneNumber); //Method to send the verification code
 
-        new CountDownTimer(65000, 1000) {
+        CountDownTimer cdt=new CountDownTimer(62000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
             }
-
             public void onFinish() {
                 Button btn=findViewById(R.id.resend_btn);
                 btn.setEnabled(true);
                 btn.setVisibility(View.VISIBLE);
                 Toast.makeText(otp_entering.this, "The code we just sent to you has expired. Please retry.", Toast.LENGTH_LONG).show();
-
             }
-
         }.start();
-
+        cdt.cancel();
     }
 
     public void appPermissions(View view) {
@@ -160,7 +156,7 @@ public class otp_entering extends AppCompatActivity {
             Button btn=findViewById(R.id.resend_btn);
             btn.setEnabled(false);
             btn.setVisibility(View.GONE);
-            new CountDownTimer(65000, 1000) {
+            CountDownTimer ctd=new CountDownTimer(65000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                 }
@@ -173,14 +169,13 @@ public class otp_entering extends AppCompatActivity {
                 }
 
             }.start();
-
+            ctd.cancel();
         }
         catch(Exception e) {
             Toast.makeText(otp_entering.this, "Failed to resend the code. Try again in 60 seconds.", Toast.LENGTH_LONG).show();
         }
 
     }
-
 
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
