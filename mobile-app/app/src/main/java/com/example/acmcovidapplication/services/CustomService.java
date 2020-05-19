@@ -91,7 +91,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(this.getResources().getString(R.string.app_name)  + " is Active")
+                .setContentTitle(this.getResources().getString(R.string.app_name)  + " is  Active")
                 .setContentText("Keeping this app running will  save you from becoming a COVID-19 victim")
                 .setSmallIcon(R.mipmap.app_icon)
                 .build();
@@ -108,6 +108,13 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             if (database_helper.getAllowed()
                      && deviceId != null){
                 setupBeacon(deviceId);
+            }
+            else {
+                if(deviceId == null){
+                    deviceId = database_helper.getUserId();
+                    setupBeacon(deviceId);
+                }
+                else{stopSelf();}
             }
 
 
@@ -197,7 +204,17 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        if(deviceId != null) setupBeacon(deviceId);
+                        if(database_helper.getAllowed()
+                                &&deviceId != null) {
+                            setupBeacon(deviceId);
+                        }
+                        else {
+                            if(deviceId == null){
+                                deviceId = database_helper.getUserId();
+                                setupBeacon(deviceId);
+                            }
+                            else{stopSelf();}
+                        }
 
                         break;
                     case BluetoothAdapter.STATE_TURNING_ON:

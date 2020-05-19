@@ -1,5 +1,7 @@
 package com.example.acmcovidapplication.db;
 
+import androidx.annotation.NonNull;
+
 public class AppDataModel {
     int id;
     boolean isAllowed;
@@ -29,5 +31,11 @@ public class AppDataModel {
 
     public String getMy_user_id() {
         return my_user_id;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id - " + id + String.format("\nisAllowed -%s", isAllowed) + "\nthis device id - "+ my_user_id;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.acmcovidapplication.db;
 
+import androidx.annotation.NonNull;
+
 public class DeviceModel {
 
     int ID;
@@ -28,5 +30,11 @@ public class DeviceModel {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id - " + ID + String.format("\nisAllowed -%s", UserID) + "\nthis device id - "+ timeStamp;
     }
 }
