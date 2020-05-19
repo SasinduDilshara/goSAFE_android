@@ -33,6 +33,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -62,7 +63,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public static final String TAG = "DB_CHECKER";
 
     private final NetworkStateReceiver  networkStateReceiver = new NetworkStateReceiver();
-
+    String deviceId;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate() {
@@ -70,7 +71,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         setResources();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-
+        deviceId = SharedPeferenceManager.getSharedPreference(this.getPackageName(),this)
+                .getString(this.getResources().getString(R.string.device_id),null);
 
         //deviceRepository = new DeviceRepository(this);
         database_helper =  DatabaseHelper.getInstance(this);
@@ -107,8 +109,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             setBluetooth(true);
         } else {
             if (SharedPeferenceManager.getSharedPreference(getPackageName(),
-                    this).getBoolean(ALLOWED,true)){
-                setupBeacon();
+                    this).getBoolean(ALLOWED,false) && deviceId != null){
+                setupBeacon(deviceId);
             }
             else {
                 stopSelf();
@@ -159,14 +161,14 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     }
 
     //this will transmit the beacon
-    private void setupBeacon() {
+    private void setupBeacon(String deviceId) {
         Beacon beacon = new Beacon.Builder()
-                .setId1("7162b38907601ded8f2867a9d45286d5") // need to generate ids device specific
+                .setId1(deviceId) // need to generate ids device specific
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
                 .setTxPower(-59)
-                .setDataFields(Arrays.asList(new Long[]{0l}))
+                .setDataFields(Collections.singletonList(0L))
                 .build();
         BeaconParser beaconParser = new BeaconParser()
                 .setBeaconLayout(BEACON_LAYOUT);
@@ -200,7 +202,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        setupBeacon();
+                        setupBeacon(deviceId);
                         break;
                     case BluetoothAdapter.STATE_TURNING_ON:
                         //
@@ -221,7 +223,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
     @Override
     public void networkAvailable() {
-        new UploadTask().execute(this);
+        new UploadTask().execute(this); // called after network state changed from disable to enable
     }
 
     @Override

@@ -30,7 +30,7 @@ public class CustomJobService extends JobService {
         return true;
     }
     private void doBackgroundWork(final JobParameters params) {
-      new UploadTask().execute(this);
+      new UploadTask().execute(this); // this will call every fifteen minutes
     }
     @Override
     public boolean onStopJob(JobParameters params) {
