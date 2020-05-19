@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static  int DATABASE_VERSION;
     private static    String USER_LOG_TABLE_NAME;
     private static String APP_DATA_TABLE_NAME;
+    private static int update_time;
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     DATABASE_VERSION = resource.getInteger(R.integer.database_version);
                     USER_LOG_TABLE_NAME = resource.getString(R.string.user_log_table_name);
                     APP_DATA_TABLE_NAME = resource.getString(R.string.app_data_table_name);
+                    update_time = resource.getInteger(R.integer.update_period);
 
                     databaseHelper = new DatabaseHelper(context);
                 }
@@ -64,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TRIGGER IF EXISTS validate");
         db.execSQL(" CREATE TRIGGER  validate BEFORE INSERT ON " + USER_LOG_TABLE_NAME +
                 " FOR EACH ROW BEGIN SELECT CASE WHEN (SELECT COUNT(userid) " +
-                "FROM " + USER_LOG_TABLE_NAME + " WHERE userid = NEW.userid AND (strftime('%s', CURRENT_TIMESTAMP) -  Strftime('%s', timestamp ))/60 < 60) > 0" +
+                "FROM " + USER_LOG_TABLE_NAME + " WHERE userid = NEW.userid AND (strftime('%s', CURRENT_TIMESTAMP) -  Strftime('%s', timestamp ))/60 < "+update_time+") > 0" +
                 " THEN RAISE(ABORT, 'cannot update') END; END");
 
     }
@@ -73,30 +75,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_LOG_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + APP_DATA_TABLE_NAME);
 
         onCreate(db);
     }
 
     //add the new note
     public void addDevice(String userId) {
-        SQLiteDatabase sqLiteDatabase = this .getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("USERID", userId);
-
-
-        //inserting new row
-        long newRowId;
-
-        try {
-            sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null , values);
-        }
-        catch (Exception e)
-        {
-            Log.d(TAG, "addNotes: " +e.getMessage());
-        }
-
-        //close database connection
-        sqLiteDatabase.close();
+        new InsertDeviceAsync(this).execute(userId);
     }
 
     //get the all notes
@@ -164,6 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.update(APP_DATA_TABLE_NAME, newValues, "ID=1", null);
 
+
     }
 
     public String getUserId(){
@@ -202,6 +189,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
             //deleting row
             sqLiteDatabase.delete(USER_LOG_TABLE_NAME, "ID = " + integers[0], null);
+            sqLiteDatabase.close();
+            return null;
+        }
+    }
+
+    private static class InsertDeviceAsync extends AsyncTask<String,Void,Void>{
+        DatabaseHelper database;
+
+        public InsertDeviceAsync(DatabaseHelper database){
+            this.database = database;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+
+            SQLiteDatabase sqLiteDatabase = database .getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("USERID", strings[0]);
+
+
+            //inserting new row
+            long newRowId;
+
+            try {
+              long success =   sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null , values);
+
+                Log.e(TAG, "doInBackground: database inserted is " + success );
+            }
+            catch (Exception e)
+            {
+                Log.d(TAG, "addNotes: " +e.getMessage());
+            }
+
+            //close database connection
             sqLiteDatabase.close();
             return null;
         }
