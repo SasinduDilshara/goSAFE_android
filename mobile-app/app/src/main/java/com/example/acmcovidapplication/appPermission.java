@@ -21,24 +21,26 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class appPermission extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final int PERMISSION_REQUEST_CODE = 1;
     Button allowButton;
+    boolean btnEnabled;
+    String[] permissions = Util.getPermissions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_permission);
-        String[] permissions = Util.getPermissions();
+
         allowButton = findViewById(R.id.final_btn);
 
-        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
-
+        btnEnabled = EasyPermissions.hasPermissions(this, permissions);
         if (!EasyPermissions.hasPermissions(this, permissions)) {
-            allowButton.setEnabled(false);
+            btnEnabled= false;
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
         }
         else{
-            allowButton.setEnabled(true);
+            btnEnabled = true;
         }
+
     }
 
     public void allowAccess(View view) {
@@ -59,6 +61,13 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Util.scheduleJobHelper(this);
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
 
     }
 
