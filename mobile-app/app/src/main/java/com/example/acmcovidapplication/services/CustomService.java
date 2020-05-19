@@ -91,7 +91,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(this.getResources().getString(R.string.app_name)  + " is Active")
+                .setContentTitle(this.getResources().getString(R.string.app_name)  + " is  Active")
                 .setContentText("Keeping this app running will  save you from becoming a COVID-19 victim")
                 .setSmallIcon(R.mipmap.app_icon)
                 .build();
