@@ -35,171 +35,182 @@
                 android:textSize="30sp" />
 
         </LinearLayout>
-
-        <TextView
+        <ScrollView
+            android:layout_above="@+id/final_btn"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="25dp"
-            android:text="ENTER YOUR OTP NUMBER HERE"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="The code we send to you will expire in 60 seconds. You can tap on the resend option that will appear on your screen after 60 seconds to retry."
-            android:textColor="@color/colorAccent"
-            android:textSize="15sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/code_1"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbar">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
+                android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="ENTER YOUR OTP NUMBER HERE"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/code_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/code_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/code_4"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/code_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/code_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/code_6"
+                <EditText
+                    android:id="@+id/code_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/code_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/code_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/code_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/code_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_round"
+                    android:gravity="center_horizontal"
+                    android:hint=" "
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingHorizontal="0dp"
+                    android:paddingVertical="15dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="314dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/transparent_light_curved"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:text="@string/changeNumber"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/resend_btn"
+                android:layout_width="314dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/transparent_light_curved"
+                android:gravity="center"
+                android:onClick="resendCode"
+                android:paddingVertical="10dp"
+                android:text="@string/resendOTP"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/transparent_round"
-                android:gravity="center_horizontal"
-                android:hint=" "
-                android:inputType="number"
-                android:maxLength="1"
-                android:paddingHorizontal="0dp"
-                android:paddingVertical="15dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="The code we send to you will expire in 60 seconds. You can tap on the resend option that will appear on your screen after 60 seconds to retry."
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp" />
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/back_btn"
-            android:layout_width="314dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/transparent_light_curved"
-            android:gravity="center"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="@string/changeNumber"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/resend_btn"
-            android:layout_width="314dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/transparent_light_curved"
-            android:gravity="center"
-            android:onClick="resendCode"
-            android:paddingVertical="10dp"
-            android:text="@string/resendOTP"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
+    </ScrollView>
     </LinearLayout>
-
     <Button
         android:id="@+id/final_btn"
         android:layout_width="match_parent"
