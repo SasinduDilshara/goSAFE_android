@@ -80,7 +80,6 @@ public class otp_entering extends AppCompatActivity {
                 Button btn=findViewById(R.id.resend_btn);
                 btn.setEnabled(true);
                 btn.setVisibility(View.VISIBLE);
-                Toast.makeText(otp_entering.this, "The code we just sent to you has expired. Please retry.", Toast.LENGTH_LONG).show();
             }
         }.start();
         if (cdt == null) {
@@ -201,7 +200,6 @@ public class otp_entering extends AppCompatActivity {
     }
 
     private void sendVerificationCode(String number) {
-//        progressBar.setVisibility(View.VISIBLE);
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 number,
                 60,
