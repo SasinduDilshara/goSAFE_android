@@ -11,7 +11,10 @@ import android.util.Log;
 
 import com.example.acmcovidapplication.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.acmcovidapplication.services.CustomService.TAG;
 
@@ -19,27 +22,32 @@ import static com.example.acmcovidapplication.services.CustomService.TAG;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //database name
-    private static    String DATABASE_NAME ;
+    private static String DATABASE_NAME;
     //database version
-    private static  int DATABASE_VERSION;
-    private static    String USER_LOG_TABLE_NAME;
+    private static int DATABASE_VERSION;
+    private static String USER_LOG_TABLE_NAME;
     private static String APP_DATA_TABLE_NAME;
     private static int update_time;
+    private static String TEMPORARY_LOG_TABLE_NAME;
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
-    private static DatabaseHelper  databaseHelper = null;
-    public static DatabaseHelper getInstance(Context context){
-        if(databaseHelper == null){
-            synchronized (DatabaseHelper.class){
-                if (databaseHelper == null){
+
+    private static DatabaseHelper databaseHelper = null;
+
+    public static DatabaseHelper getInstance(Context context) {
+        if (databaseHelper == null) {
+            synchronized (DatabaseHelper.class) {
+                if (databaseHelper == null) {
                     Resources resource = context.getResources();
 
                     DATABASE_NAME = resource.getString(R.string.database_name);
                     DATABASE_VERSION = resource.getInteger(R.integer.database_version);
                     USER_LOG_TABLE_NAME = resource.getString(R.string.user_log_table_name);
                     APP_DATA_TABLE_NAME = resource.getString(R.string.app_data_table_name);
+                    TEMPORARY_LOG_TABLE_NAME = resource.getString(R.string.temp_log_table_name);
                     update_time = resource.getInteger(R.integer.update_period);
 
                     databaseHelper = new DatabaseHelper(context);
@@ -52,14 +60,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query_user_log,query_app_data;
+        String query_user_log, query_app_data, query_temp_log;
         //creating table
         query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT, TIMESTAMP_UP DATETIME DEFAULT CURRENT_TIMESTAMP)";
         query_app_data = "CREATE TABLE " + APP_DATA_TABLE_NAME + "(ID INTEGER PRIMARY KEY , USER_ID TEXT TYPE UNIQUE, IS_ALLOWED INTEGER  )";
+        query_temp_log = "CREATE TABLE " + TEMPORARY_LOG_TABLE_NAME +
+                "( USER_ID TEXT PRIMARY KEY, TIMESTAMP_UP INTEGER )";
 
 
         db.execSQL(query_user_log);
         db.execSQL(query_app_data);
+        db.execSQL(query_temp_log);
 
         db.execSQL("INSERT INTO " + APP_DATA_TABLE_NAME + " (ID) " + " VALUES (1)");
 
@@ -76,13 +87,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_LOG_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + APP_DATA_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TEMPORARY_LOG_TABLE_NAME);
 
         onCreate(db);
     }
 
     //add the new note
     public void addDevice(String userId) {
-        new InsertDeviceAsync(this).execute(userId);
+
+        String select_query = "SELECT * FROM " + TEMPORARY_LOG_TABLE_NAME + " WHERE USER_ID = '" + userId + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(select_query, null);
+
+        if (cursor.moveToFirst()) {
+                long result = cursor.getInt(1);
+                long now = (long)System.currentTimeMillis()/10000;
+                long difference = now -result;
+
+                if (difference> update_time * 6) {
+
+
+                    new InsertDeviceAsync(this).execute(userId);
+                    ContentValues cv = new ContentValues();
+                    cv.put("USER_ID", userId);
+                    cv.put("TIMESTAMP_UP",(long)(System.currentTimeMillis()/10000));
+                    db.update(TEMPORARY_LOG_TABLE_NAME, cv, " USER_ID = '" + userId + "'", null);
+
+                } else {
+
+                    Log.d(TAG, "addDevice: no need to insert");
+                }
+
+
+
+        } else {
+            ContentValues cv = new ContentValues();
+            cv.put("USER_ID", userId);
+            cv.put("TIMESTAMP_UP",(long)(System.currentTimeMillis()/10000));
+            db.insert(TEMPORARY_LOG_TABLE_NAME, null, cv);
+        }
+
+        db.close();
+        cursor.close();
+
+
     }
 
     //get the all notes
@@ -90,9 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<DeviceModel> arrayList = new ArrayList<>();
 
         // select all query
-        String select_query= "SELECT * FROM " + USER_LOG_TABLE_NAME;
+        String select_query = "SELECT * FROM " + USER_LOG_TABLE_NAME;
 
-        SQLiteDatabase db = this .getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select_query, null);
 
         // looping through all rows and adding to list
@@ -103,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 deviceModel.setUserID(cursor.getString(1));
                 deviceModel.setTimeStamp(cursor.getString(2));
                 arrayList.add(deviceModel);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         db.close();
         cursor.close();
@@ -116,11 +166,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //update the note
     public void updateDevice(String title, String des, String ID) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues values =  new ContentValues();
+        ContentValues values = new ContentValues();
         values.put("Title", title);
         values.put("Description", des);
         //updating row
@@ -128,14 +177,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteAllDevice(){
+    public void deleteAllDevice() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("DELETE FROM " + USER_LOG_TABLE_NAME);
     }
 
-    public void insertAllowed(boolean allowed){
-        int i =0;
-        if(allowed){ i = 1;}
+    public void deleteAllTempData(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("DELETE FROM " + TEMPORARY_LOG_TABLE_NAME);
+    }
+
+    public void insertAllowed(boolean allowed) {
+        int i = 0;
+        if (allowed) {
+            i = 1;
+        }
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues newValues = new ContentValues();
         newValues.put("IS_ALLOWED", i);
@@ -143,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(APP_DATA_TABLE_NAME, newValues, "ID=1", null);
     }
 
-    public void insertUserId(String  user_id){
+    public void insertUserId(String user_id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues newValues = new ContentValues();
         newValues.put("USER_ID", user_id);
@@ -153,9 +209,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public String getUserId(){
+    public String getUserId() {
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1",null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1", null);
         cursor.moveToFirst();
 
         int column = cursor.getColumnIndex("USER_ID");
@@ -166,9 +222,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean getAllowed(){
+    public boolean getAllowed() {
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1" ,null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1", null);
         cursor.moveToFirst();
 
         int isAllowed = cursor.getInt(cursor.getColumnIndex("IS_ALLOWED"));
@@ -176,10 +232,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isAllowed == 1;
     }
 
-    private static class DeleteDeviceAsync extends AsyncTask<Integer,Void,Void>{
+    private static class DeleteDeviceAsync extends AsyncTask<Integer, Void, Void> {
         DatabaseHelper database;
 
-        public DeleteDeviceAsync(DatabaseHelper database){
+        public DeleteDeviceAsync(DatabaseHelper database) {
             this.database = database;
         }
 
@@ -194,51 +250,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private static class InsertDeviceAsync extends AsyncTask<String,Void,Void>{
+    private static class InsertDeviceAsync extends AsyncTask<String, Void, Void> {
         DatabaseHelper database;
 
-        public InsertDeviceAsync(DatabaseHelper database){
+        public InsertDeviceAsync(DatabaseHelper database) {
             this.database = database;
         }
 
         @Override
         protected Void doInBackground(String... strings) {
 
-            SQLiteDatabase sqLiteDatabase = database .getWritableDatabase();
-            SQLiteDatabase sqLiteDatabase1 = database.getReadableDatabase();
-            Cursor cursor = sqLiteDatabase1.rawQuery("SELECT COUNT(userid) FROM " + USER_LOG_TABLE_NAME + " WHERE userid = '"+ strings [0]+"' AND " +
-                    "(((julianday(CURRENT_TIMESTAMP) - julianday(timestamp_up)) * 86400.0)/60 <" + update_time  + ") > 0 ORDER by timestamp_up asc limit 1;" ,null);
-            cursor.moveToFirst();
-            if( cursor.getInt(0) == 0){
-                ContentValues values = new ContentValues();
-                values.put("USERID", strings[0]);
+            SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("USERID", strings[0]);
 
 
-                //inserting new row
-                long newRowId;
 
-                try {
-                    long success =   sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null , values);
+            //inserting new row
+            long newRowId;
 
-                    Log.e(TAG, "doInBackground: database inserted is " + success );
-                }
-                catch (Exception e)
-                {
-                    Log.d(TAG, "addNotes: " +e.getMessage());
-                }
+            try {
+                long success = sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null, values);
 
-                //close database connection
-
-            }
-            
-            else{
-                Log.d(TAG, "doInBackground: no need to insert");
+                Log.e(TAG, "doInBackground: database inserted is " + success);
+            } catch (Exception e) {
+                Log.d(TAG, "addNotes: " + e.getMessage());
             }
 
+            //close database connection
 
-            cursor.close();
             sqLiteDatabase.close();
-            
+
             return null;
         }
     }

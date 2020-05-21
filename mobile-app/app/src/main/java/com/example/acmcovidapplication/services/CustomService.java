@@ -1,7 +1,10 @@
 package com.example.acmcovidapplication.services;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,6 +18,7 @@ import android.util.Log;
 
 import com.example.acmcovidapplication.R;
 import com.example.acmcovidapplication.Util;
+import com.example.acmcovidapplication.broadcast_receiver.AlarmReceiver;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.db.DeviceModel;
@@ -29,6 +33,7 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -46,33 +51,43 @@ import static com.example.acmcovidapplication.Util.setBluetooth;
 
 
 public class CustomService extends Service implements BeaconConsumer, LifecycleOwner,
-        NetworkStateReceiver.NetworkStateReceiverListener  {
+        NetworkStateReceiver.NetworkStateReceiverListener {
     private BeaconManager beaconManager;
     Beacon beacon;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private  double MAX_DISTANCE;
-    private  int    SCAN_PERIOD;
-    private  int    TIME_BETWEEB_TWO_SCAN;
+    private double MAX_DISTANCE;
+    private int SCAN_PERIOD;
+    private int TIME_BETWEEB_TWO_SCAN;
     public static final String BEACON_LAYOUT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
     public String ALLOWED;
 
     private DatabaseHelper database_helper;
     public static final String TAG = "DB_CHECKER";
 
-    private final NetworkStateReceiver  networkStateReceiver = new NetworkStateReceiver();
+    private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
     String deviceId;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate() {
         super.onCreate();
         setResources();
         networkStateReceiver.addListener(this);
-        registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
+        Calendar c = Calendar.getInstance(); //gives u calendar with current time
+        c.add(Calendar.SECOND, 30);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),
+                    AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
 
+        }
         //deviceRepository = new DeviceRepository(this);
-        database_helper =  DatabaseHelper.getInstance(this);
+        database_helper = DatabaseHelper.getInstance(this);
         deviceId = DatabaseHelper.getInstance(this).getUserId();
 
 
@@ -83,7 +98,6 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         backgroundPowerSaver = new BackgroundPowerSaver(this);
 
 
-
     }
 
 
@@ -91,7 +105,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(this.getResources().getString(R.string.app_name)  + " is  Active")
+                .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
                 .setContentText("Keeping this app running will  save you from  \nbecoming a COVID-19 victim")
                 .setSmallIcon(R.mipmap.app_icon)
                 .build();
@@ -110,15 +124,15 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             setBluetooth(true);
         } else {
             if (database_helper.getAllowed()
-                    && deviceId != null){
+                    && deviceId != null) {
                 setupBeacon(deviceId);
-            }
-            else {
-                if(deviceId == null){
+            } else {
+                if (deviceId == null) {
                     deviceId = database_helper.getUserId();
                     setupBeacon(deviceId);
+                } else {
+                    stopSelf();
                 }
-                else{stopSelf();}
             }
 
 
@@ -130,6 +144,16 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        alarmManager.cancel(pendingIntent);
+
+        JobScheduler scheduler ;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            scheduler.cancel(123);
+        }
     }
 
     @Nullable
@@ -147,7 +171,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 for (Beacon beacon : beacons) {
                     Log.d(TAG, "I see a beacon ");
                     if (beacon.getDistance() < MAX_DISTANCE) {
-                        Log.d(TAG, "I see a beacon that is less than" +MAX_DISTANCE + " meters away.");
+                        Log.d(TAG, "I see a beacon that is less than" + MAX_DISTANCE + " meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
 
                         database_helper.addDevice(beacon.getId1().toString());
@@ -170,7 +194,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private void setupBeacon(String deviceId) {
         BeaconParser beaconParser = new BeaconParser()
                 .setBeaconLayout(BEACON_LAYOUT);
-        if(beacon == null) {
+        if (beacon == null) {
             beacon = new Beacon.Builder()
                     .setId1(deviceId) // need to generate ids device specific
                     .setId2("1")
@@ -183,7 +207,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             BeaconTransmitter beaconTransmitter = new BeaconTransmitter(this, beaconParser);
             beaconTransmitter.startAdvertising(beacon);
         }
-        if(beaconManager == null){
+        if (beaconManager == null) {
             beaconManager = BeaconManager.getInstanceForApplication(this);
 
             // To detect proprietary beacons, you must add a line like below corresponding to your beacon
@@ -213,16 +237,16 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        if(database_helper.getAllowed()
-                                &&deviceId != null) {
+                        if (database_helper.getAllowed()
+                                && deviceId != null) {
                             setupBeacon(deviceId);
-                        }
-                        else {
-                            if(deviceId == null){
+                        } else {
+                            if (deviceId == null) {
                                 deviceId = database_helper.getUserId();
                                 setupBeacon(deviceId);
+                            } else {
+                                stopSelf();
                             }
-                            else{stopSelf();}
                         }
 
                         break;
@@ -233,8 +257,6 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             }
         }
     };
-
-
 
 
     @NonNull
@@ -254,30 +276,31 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     }
 
 
-
-
-    static class UploadTask extends AsyncTask<Context,Void, Context>{
+    static class UploadTask extends AsyncTask<Context, Void, Context> {
         List<DeviceModel> list;
+
         @Override
         protected Context doInBackground(Context... contexts) {
             Context context = contexts[0];
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-            list =  databaseHelper.getDevices();
+            list = databaseHelper.getDevices();
             boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
-            if(isInternetConnectionAvailable){ return context;}
+            if (isInternetConnectionAvailable) {
+                return context;
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Context context) {
             super.onPostExecute(context);
-            if(context != null){
+            if (context != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 // TODO: Upload the above list here( List<DeviceModel> line 236 check before it is null or not)
                 FirebaseHelper firebaseHelper = new FirebaseHelper();
-                if (list!= null){
-                    for(DeviceModel deviceModel:list){
+                if (list != null) {
+                    for (DeviceModel deviceModel : list) {
                         firebaseHelper.update(deviceModel, databaseHelper);
                     }
                 }
@@ -286,8 +309,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         }
     }
 
-    private void setResources(){
-        MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance );
+    private void setResources() {
+        MAX_DISTANCE = ResourcesCompat.getFloat(this.getResources(), R.dimen.max_distance);
         SCAN_PERIOD = this.getResources().getInteger(R.integer.scan_period);
         TIME_BETWEEB_TWO_SCAN = this.getResources().getInteger(R.integer.time_between_scan);
         ALLOWED = getResources().getString(R.string.is_allowed);

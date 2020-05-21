@@ -3,8 +3,9 @@
     <item format="float" name="max_distance" type="dimen">  2.0 </item>
     <integer name="scan_period"> 3000 </integer>
     <integer name="upload_period"> 900000 </integer>
-    <integer name="time_between_scan"> 12000 </integer>
+    <integer name="time_between_scan"> 120000 </integer>
     <integer name="update_period">60</integer> <!-- in minutes -->
+
 
     <string name="is_allowed"> IS_ALLOWED </string>
     <string name="device_id">DEVICE ID</string>
@@ -15,6 +16,7 @@
     <string name="database_name"> user_log_db </string>
     <string name="user_log_table_name"> user_log_table </string>
     <string name="app_data_table_name"> app_data_table </string>
+    <string name="temp_log_table_name"> temp_log_table </string>
     <integer name="database_version"> 1 </integer>
 
 
