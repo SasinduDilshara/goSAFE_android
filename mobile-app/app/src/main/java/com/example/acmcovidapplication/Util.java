@@ -17,7 +17,11 @@ import com.example.acmcovidapplication.services.CustomJobService;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 
 import androidx.annotation.RequiresApi;
@@ -51,39 +55,27 @@ public class Util {
         }
     }
     public static boolean isInternetAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            try{
-                HttpURLConnection connection = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
-                connection.setRequestProperty("User-Agent", "Test");
-                connection.setRequestProperty("Connection", "close");
-                connection.setConnectTimeout(3000); //choose your own timeframe
-                connection.setReadTimeout(4000); //choose your own timeframe
-                connection.connect();
-                int responseCode = connection.getResponseCode();
-                if (responseCode == 200) { //Connection OK
-                    return true;
-                } else {
-                    return  false;
-                }
-            }catch (Exception e){
-                return  false; //connectivity exists, but no internet.
-            }
-        } else {
-            return  false; //no connectivity
-        }
+        try {
+            int timeoutMs = 1500;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+
+            return true;
+        } catch (IOException e) { return false; }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    static void scheduleJobHelper(Context context){
+    public static void scheduleJobHelper(Context context){
         ComponentName componentName = new ComponentName(context, CustomJobService.class);
         JobInfo info = null;
 
         info = new JobInfo.Builder(123, componentName)
                 .setPersisted(true)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(context.getResources().getInteger(R.integer.scan_period))
+                .setPeriodic(context.getResources().getInteger(R.integer.upload_period))
                 .build();
 
         JobScheduler scheduler = null;

@@ -29,11 +29,11 @@ public class CustomJobService extends JobService {
         return true;
     }
     private void doBackgroundWork(final JobParameters params) {
-      new UploadTask().execute(this); // this will call every fifteen minutes
+        new UploadTask().execute(this); // this will call every fifteen minutes
     }
     @Override
     public boolean onStopJob(JobParameters params) {
-        
+
         jobCancelled = true;
         return true;
     }
@@ -58,7 +58,10 @@ public class CustomJobService extends JobService {
 
                 FirebaseHelper firebaseHelper = new FirebaseHelper();
                 // TODO: Upload the above list here( List<DeviceModel> line 42 check before it is null or not)
-                if (list != null){
+
+
+                if (list != null) {
+
                     for(DeviceModel deviceModel:list){
                         firebaseHelper.update(deviceModel, databaseHelper);
                     }
