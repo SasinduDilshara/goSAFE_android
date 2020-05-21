@@ -13,4 +13,6 @@
     <string name="share_btn"><b>SHARE THIS APPLICATION</b></string>
     <string name="splash1">From ACM Student Chapter</string>
     <string name="splash2">University of Moratuwa</string>
+    <string name="about_dev">This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching our goal.</string>
+    <string name="about_acm">ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society.</string>
 </resources>
