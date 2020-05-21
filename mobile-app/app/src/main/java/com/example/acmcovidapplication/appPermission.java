@@ -30,12 +30,6 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
 
         allowButton = findViewById(R.id.final_btn);
         stopService( new Intent(this, CustomService.class));
-        JobScheduler scheduler = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-            scheduler.cancel(123);
-        }
-
 
         if (!EasyPermissions.hasPermissions(this, permissions)) {
             DatabaseHelper.getInstance(this).insertAllowed(false);

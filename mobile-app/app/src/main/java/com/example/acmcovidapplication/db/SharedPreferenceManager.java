@@ -5,17 +5,17 @@ import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class SharedPeferenceManager {
+public class SharedPreferenceManager {
 
     private static SharedPreferences sharedPreferences = null;
-    private SharedPeferenceManager(){
+    private SharedPreferenceManager(){
 
     }
 
     public static SharedPreferences getSharedPreference(String name,Context context){
         if(sharedPreferences == null )
         {
-            synchronized (SharedPeferenceManager.class){
+            synchronized (SharedPreferenceManager.class){
                 if(sharedPreferences == null ) sharedPreferences =  context.getSharedPreferences(name, MODE_PRIVATE);
             }
 
