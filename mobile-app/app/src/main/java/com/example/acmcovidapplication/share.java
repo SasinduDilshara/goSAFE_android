@@ -45,10 +45,6 @@ public class share extends AppCompatActivity {
 
             ContextCompat.startForegroundService(this, serviceIntent);
 
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Util.scheduleJobHelper(this);
-            }
         }
     }
 

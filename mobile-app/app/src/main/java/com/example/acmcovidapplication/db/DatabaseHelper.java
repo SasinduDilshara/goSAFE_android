@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query_user_log,query_app_data;
         //creating table
-        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT, TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP)";
+        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT, TIMESTAMP_UP DATETIME DEFAULT CURRENT_TIMESTAMP)";
         query_app_data = "CREATE TABLE " + APP_DATA_TABLE_NAME + "(ID INTEGER PRIMARY KEY , USER_ID TEXT TYPE UNIQUE, IS_ALLOWED INTEGER  )";
 
 
@@ -63,11 +63,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO " + APP_DATA_TABLE_NAME + " (ID) " + " VALUES (1)");
 
-        db.execSQL("DROP TRIGGER IF EXISTS validate");
-        db.execSQL(" CREATE TRIGGER  validate BEFORE INSERT ON " + USER_LOG_TABLE_NAME +
+        //db.execSQL("DROP TRIGGER IF EXISTS validate");
+        /*db.execSQL(" CREATE TRIGGER  validate BEFORE INSERT ON " + USER_LOG_TABLE_NAME +
                 " FOR EACH ROW BEGIN SELECT CASE WHEN (SELECT COUNT(userid) " +
-                "FROM " + USER_LOG_TABLE_NAME + " WHERE userid = NEW.userid AND (strftime('%s', CURRENT_TIMESTAMP) -  Strftime('%s', timestamp ))/60 < "+update_time+") > 0" +
-                " THEN RAISE(ABORT, 'cannot update') END; END");
+                "FROM " + USER_LOG_TABLE_NAME + " WHERE userid = NEW.userid AND  ((julianday(CURRENT_TIMESTAMP) - julianday(timestamp_up)) * 86400.0)/60 < "+60+") > 0" +
+                " THEN RAISE(ABORT, 'cannot update') END; END");*/
 
     }
 
@@ -205,26 +205,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         protected Void doInBackground(String... strings) {
 
             SQLiteDatabase sqLiteDatabase = database .getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("USERID", strings[0]);
+            SQLiteDatabase sqLiteDatabase1 = database.getReadableDatabase();
+            Cursor cursor = sqLiteDatabase1.rawQuery("SELECT COUNT(userid) FROM " + USER_LOG_TABLE_NAME + " WHERE userid = '"+ strings [0]+"' AND " +
+                    "(((julianday(CURRENT_TIMESTAMP) - julianday(timestamp_up)) * 86400.0)/60 <" + update_time  + ") > 0 ORDER by timestamp_up asc limit 1;" ,null);
+            cursor.moveToFirst();
+            if( cursor.getInt(0) == 0){
+                ContentValues values = new ContentValues();
+                values.put("USERID", strings[0]);
 
 
-            //inserting new row
-            long newRowId;
+                //inserting new row
+                long newRowId;
 
-            try {
-              long success =   sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null , values);
+                try {
+                    long success =   sqLiteDatabase.insert(USER_LOG_TABLE_NAME, null , values);
 
-                Log.e(TAG, "doInBackground: database inserted is " + success );
+                    Log.e(TAG, "doInBackground: database inserted is " + success );
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, "addNotes: " +e.getMessage());
+                }
+
+                //close database connection
+
             }
-            catch (Exception e)
-            {
-                Log.d(TAG, "addNotes: " +e.getMessage());
+            
+            else{
+                Log.d(TAG, "doInBackground: no need to insert");
             }
 
-            //close database connection
+
+            cursor.close();
             sqLiteDatabase.close();
+            
             return null;
         }
     }
+
+
 }
