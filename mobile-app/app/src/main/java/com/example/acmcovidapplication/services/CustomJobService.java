@@ -45,7 +45,7 @@ public class CustomJobService extends JobService {
             Context context = contexts[0];
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
             list =  databaseHelper.getDevices();
-            boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
+            boolean isInternetConnectionAvailable = Util.isInternetAvailable();
             if(isInternetConnectionAvailable){ return context;}
             return null;
         }
