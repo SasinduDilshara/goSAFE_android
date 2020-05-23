@@ -157,7 +157,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 .setSmallIcon(R.drawable.logo_4)
                 .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.app_icon))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Keeping this app running will save you from  \nbecoming a COVID-19 victim"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Keeping this app running will save you from becoming a COVID-19 victim"))
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
