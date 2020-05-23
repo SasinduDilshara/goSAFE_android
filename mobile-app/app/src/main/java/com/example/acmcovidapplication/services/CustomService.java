@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.le.AdvertiseCallback;
+import android.bluetooth.le.AdvertiseSettings;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +48,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
+import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
+import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
@@ -53,7 +57,7 @@ import static com.example.acmcovidapplication.Util.setBluetooth;
 public class CustomService extends Service implements BeaconConsumer, LifecycleOwner,
         NetworkStateReceiver.NetworkStateReceiverListener {
     private BeaconManager beaconManager;
-    Beacon beacon;
+    BeaconTransmitter beaconTransmitter;
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
     private double MAX_DISTANCE;
@@ -191,21 +195,39 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     }
 
     //this will transmit the beacon
+
     private void setupBeacon(String deviceId) {
         BeaconParser beaconParser = new BeaconParser()
                 .setBeaconLayout(BEACON_LAYOUT);
-        if (beacon == null) {
-            beacon = new Beacon.Builder()
+        if (beaconTransmitter == null) {
+            Beacon beacon = new Beacon.Builder()
                     .setId1(deviceId) // need to generate ids device specific
                     .setId2("1")
                     .setId3("2")
                     .setManufacturer(0x0118)
-                    .setTxPower(-59)
+                    .setTxPower(-81)
                     .setDataFields(Collections.singletonList(0L))
                     .build();
 
-            BeaconTransmitter beaconTransmitter = new BeaconTransmitter(this, beaconParser);
-            beaconTransmitter.startAdvertising(beacon);
+            beaconTransmitter = new BeaconTransmitter(this, beaconParser);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                beaconTransmitter.setAdvertiseTxPowerLevel(ADVERTISE_TX_POWER_LOW);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                beaconTransmitter.startAdvertising(beacon , new AdvertiseCallback(){
+                    @Override
+                    public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+                        super.onStartSuccess(settingsInEffect);
+                        Log.i(TAG, "Advertisement start succeeded.");
+                    }
+
+                    @Override
+                    public void onStartFailure(int errorCode) {
+                        super.onStartFailure(errorCode);
+                        Log.e(TAG, "Advertisement start failed with code: "+errorCode);
+                    }
+                });
+            }
         }
         if (beaconManager == null) {
             beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -213,6 +235,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             // To detect proprietary beacons, you must add a line like below corresponding to your beacon
             // type.  Do a web search for "setBeaconLayout" to get the proper expression.
             beaconManager.getBeaconParsers().add(beaconParser);
+            beaconManager.setEnableScheduledScanJobs(false);
        /* beaconManager.setBackgroundBetweenScanPeriod(0);
         beaconManager.setBackgroundScanPeriod(10000);*/
             beaconManager.bind(this);
