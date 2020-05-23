@@ -81,7 +81,6 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public static final String TAG = "DB_CHECKER";
 
     private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
-    private final AlarmReceiver alarmReceiver = new AlarmReceiver();
     String deviceId;
     private LocationManager locationManager;
 
@@ -364,7 +363,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             Context context = contexts[0];
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
             list = databaseHelper.getDevices();
-            boolean isInternetConnectionAvailable = Util.isInternetAvailable(context);
+            boolean isInternetConnectionAvailable = Util.isInternetAvailable();
             if (isInternetConnectionAvailable) {
                 return context;
             }
