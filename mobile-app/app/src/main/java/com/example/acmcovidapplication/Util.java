@@ -55,7 +55,7 @@ public class Util {
             return permissions;
         }
     }
-    public static boolean isInternetAvailable(Context context) {
+    public static boolean isInternetAvailable() {
         try {
             int timeoutMs = 1500;
             Socket sock = new Socket();
