@@ -1,7 +1,6 @@
 package com.example.acmcovidapplication.services;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -376,14 +375,15 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             if (context != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
-                // TODO: Upload the above list here( List<DeviceModel> line 236 check before it is null or not)
+
                 FirebaseHelper firebaseHelper = new FirebaseHelper();
-                if (list != null) {
+                if (list != null && list.size() != 0) {
+                    Log.d(TAG, "onPostExecute: firebase update method called");
                     for (DeviceModel deviceModel : list) {
                         firebaseHelper.update(deviceModel, databaseHelper);
                     }
                 }
-                // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
+
             }
         }
     }

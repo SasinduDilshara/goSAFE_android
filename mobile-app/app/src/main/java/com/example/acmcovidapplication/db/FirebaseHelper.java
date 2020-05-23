@@ -39,6 +39,8 @@ public class FirebaseHelper {
 //            System.out.println(date);
             Map<String, Object> data = new HashMap<>();
             data.put("timestamp", date);
+            data.put("latitude", deviceModel.getLatitude());
+            data.put("longitude", deviceModel.getLongitude());
 
             db.collection("users")
                     .document(uid)
