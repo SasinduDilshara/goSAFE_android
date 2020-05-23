@@ -62,7 +62,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query_user_log, query_app_data, query_temp_log;
         //creating table
-        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT, TIMESTAMP_UP DATETIME DEFAULT CURRENT_TIMESTAMP)";
+        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT," +
+                " TIMESTAMP_UP DATETIME DEFAULT CURRENT_TIMESTAMP," +
+                " LATITUDE DOUBLE, LONGITUDE DOUBLE )";
         query_app_data = "CREATE TABLE " + APP_DATA_TABLE_NAME + "(ID INTEGER PRIMARY KEY , USER_ID TEXT TYPE UNIQUE, IS_ALLOWED INTEGER  )";
         query_temp_log = "CREATE TABLE " + TEMPORARY_LOG_TABLE_NAME +
                 "( USER_ID TEXT PRIMARY KEY, TIMESTAMP_UP INTEGER )";
@@ -93,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //add the new note
-    public void addDevice(String userId) {
+    public void addDevice(String userId,double latitude,double longitude) {
 
         String select_query = "SELECT * FROM " + TEMPORARY_LOG_TABLE_NAME + " WHERE USER_ID = '" + userId + "'";
 
@@ -117,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 } else {
 
-                    Log.d(TAG, "addDevice: no need to insert");
+                     Log.d(TAG, "addDevice: no need to insert");
                 }
 
 
@@ -126,6 +128,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cv = new ContentValues();
             cv.put("USER_ID", userId);
             cv.put("TIMESTAMP_UP",(long)(System.currentTimeMillis()/10000));
+            if(latitude != 0 && longitude != 0) {
+                cv.put("LATITUDE",latitude);
+                cv.put("LONGITUDE",longitude);
+            }
             db.insert(TEMPORARY_LOG_TABLE_NAME, null, cv);
         }
 
@@ -152,6 +158,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 deviceModel.setID(cursor.getInt(cursor.getColumnIndex("ID")));
                 deviceModel.setUserID(cursor.getString(1));
                 deviceModel.setTimeStamp(cursor.getString(2));
+                deviceModel.setLatitude(cursor.getColumnIndex("LATITUDE"));
+                deviceModel.setLongitude(cursor.getColumnIndex("LONGITUDE"));
                 arrayList.add(deviceModel);
             } while (cursor.moveToNext());
         }
