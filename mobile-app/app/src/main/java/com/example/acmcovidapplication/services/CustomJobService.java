@@ -7,6 +7,7 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.db.DatabaseHelper;
@@ -17,11 +18,13 @@ import java.util.List;
 
 import androidx.annotation.RequiresApi;
 
+import static com.example.acmcovidapplication.services.CustomService.TAG;
+
 
 @SuppressLint("SpecifyJobSchedulerIdRange")
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CustomJobService extends JobService {
-    private static final String TAG = "CustomJobService";
+
     private boolean jobCancelled = false;
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -57,18 +60,18 @@ public class CustomJobService extends JobService {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 FirebaseHelper firebaseHelper = new FirebaseHelper();
-                // TODO: Upload the above list here( List<DeviceModel> line 42 check before it is null or not)
 
 
-                if (list != null) {
 
+                if (list != null && list.size()!=0) {
+                    Log.d(TAG, "onPostExecute: firebase update method called");
                     for(DeviceModel deviceModel:list){
                         firebaseHelper.update(deviceModel, databaseHelper);
                     }
                 }
 
 
-                // TODO: on successful upload clear the cache (databaseHelper.deleteAlldata(); )
+
 
             }
         }

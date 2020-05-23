@@ -166,8 +166,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 deviceModel.setID(cursor.getInt(cursor.getColumnIndex("ID")));
                 deviceModel.setUserID(cursor.getString(1));
                 deviceModel.setTimeStamp(cursor.getString(2));
-                deviceModel.setLatitude(cursor.getColumnIndex("LATITUDE"));
-                deviceModel.setLongitude(cursor.getColumnIndex("LONGITUDE"));
+                deviceModel.setLatitude(cursor.getDouble(cursor.getColumnIndex("LATITUDE")) );
+                deviceModel.setLongitude(cursor.getDouble(cursor.getColumnIndex("LONGITUDE")));
                 arrayList.add(deviceModel);
             } while (cursor.moveToNext());
         }
