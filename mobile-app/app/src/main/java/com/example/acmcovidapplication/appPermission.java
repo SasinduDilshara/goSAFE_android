@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.services.CustomService;
@@ -35,6 +38,9 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
             DatabaseHelper.getInstance(this).insertAllowed(false);
             EasyPermissions.requestPermissions(this, "This app need Location Access to continue ",
                     PERMISSION_REQUEST_CODE, permissions);
+            Button btn=findViewById(R.id.final_btn);
+            Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
+            btn.startAnimation(animFadeIn);
         }
 
 
@@ -74,6 +80,9 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
         String[] permissions = Util.getPermissions();
         allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
+        Button btn=findViewById(R.id.final_btn);
+        Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
+        btn.startAnimation(animFadeIn);
 
     }
 
