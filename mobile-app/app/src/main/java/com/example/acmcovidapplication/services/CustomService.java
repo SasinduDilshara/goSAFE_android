@@ -49,7 +49,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
-import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
 
@@ -77,6 +76,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public void onCreate() {
         super.onCreate();
         setResources();
+
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
@@ -109,9 +109,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
-                .setContentText("Keeping this app running will  save you from  \nbecoming a COVID-19 victim")
                 .setSmallIcon(R.mipmap.app_icon)
+                .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Keeping this app running will  save you from  \nbecoming a COVID-19 victim"))
+
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
