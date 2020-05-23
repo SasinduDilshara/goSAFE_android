@@ -3,16 +3,25 @@
     <string name="title">title</string>
     <string name="changeNumber">CHANGE THE MOBILE NUMBER</string>
     <string name="resendOTP">RESEND CODE</string>
-    <string name="permission_1">ALLOW <b>goSAFE</b> ACCESS BLUETOOTH</string>
-    <string name="permission_2">ALLOW <b>goSAFE</b> SEND NOTIFICATIONS</string>
-    <string name="permission_3">ALLOW <b>goSAFE</b> STORE YOUR MOBILE NUMBER IN ITS SECURE REGISTRY</string>
-    <string name="login_1_btn"><b>LOGIN</b></string>
+
     <string name="welcome_btn"><b>I WANT TO GIVE A HAND</b></string>
     <string name="login_2_btn"><b>LOGIN</b></string>
     <string name="allow_btn"><b>I ACCEPT</b></string>
     <string name="share_btn"><b>SHARE THIS APPLICATION</b></string>
     <string name="splash1">ACM Student Chapter</string>
     <string name="splash2">University of Moratuwa</string>
+
+
     <string name="about_dev">This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching our goal.</string>
     <string name="about_acm">ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society.</string>
+
+    <string name="login_text1">ENTER YOUR MOBILE NUMBER HERE</string>
+    <string name="login_text2">YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT</string>
+    <string name="login_text3">WE HAVE SENT AN OTP NUMBER TO VERIFY YOUR MOBILE NUMBER. PRESS LOGIN TO ENTER THE OTP NUMBER</string>
+    <string name="login_1_btn"><b>LOGIN</b></string>
+
+    <string name="permission_1">ALLOW <b>goSAFE</b> ACCESS BLUETOOTH</string>
+    <string name="permission_2">ALLOW <b>goSAFE</b> SEND NOTIFICATIONS</string>
+    <string name="permission_3">ALLOW <b>goSAFE</b> STORE YOUR MOBILE NUMBER IN ITS SECURE REGISTRY</string>
+
 </resources>

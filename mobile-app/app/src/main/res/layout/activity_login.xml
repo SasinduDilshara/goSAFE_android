@@ -18,16 +18,19 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:layout_centerHorizontal= "true"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="57dp"
                 android:layout_height="66dp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/logo_4" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="174dp"
+                android:layout_centerVertical="true"
                 android:layout_height="match_parent"
                 android:paddingVertical="6dp"
                 android:text=" goSAFE"
@@ -44,7 +47,7 @@
             android:layout_marginHorizontal="10dp"
             android:gravity="center"
             android:padding="25dp"
-            android:text="ENTER YOUR MOBILE NUMBER HERE"
+            android:text="@string/login_text1"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
         <RelativeLayout
@@ -85,7 +88,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="15dp"
-            android:text="YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT"
+            android:text="@string/login_text2"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -109,7 +112,7 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="WE HAVE SENT AN OTP NUMBER TO VERIFY YOUR MOBILE NUMBER. PRESS LOGIN TO ENTER THE OTP NUMBER"
+        android:text="@string/login_text3"
         android:textColor="@color/colorAccent"
         android:textSize="15sp" />
 

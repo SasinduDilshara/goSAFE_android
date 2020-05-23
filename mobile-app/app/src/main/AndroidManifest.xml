@@ -19,13 +19,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home"></activity>
-        <activity android:name=".about" />
-        <activity android:name=".share" />
-        <activity android:name=".appPermission" />
-        <activity android:name=".otp_entering" />
-        <activity android:name=".login" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Home" android:screenOrientation="portrait"></activity>
+        <activity android:name=".about" android:screenOrientation="portrait"/>
+        <activity android:name=".share" android:screenOrientation="portrait"/>
+        <activity android:name=".appPermission" android:screenOrientation="portrait"/>
+        <activity android:name=".otp_entering" android:screenOrientation="portrait"/>
+        <activity android:name=".login"  android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -17,11 +17,13 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="57dp"
                 android:layout_height="66dp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/logo_4" />
 
             <TextView
@@ -29,6 +31,7 @@
                 android:layout_width="174dp"
                 android:layout_height="match_parent"
                 android:paddingVertical="6dp"
+                android:layout_centerVertical="true"
                 android:text=" goSAFE"
                 android:textAlignment="gravity"
                 android:textColor="#fff"
