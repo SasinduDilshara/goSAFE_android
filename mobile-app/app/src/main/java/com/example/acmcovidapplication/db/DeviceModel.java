@@ -4,9 +4,31 @@ import androidx.annotation.NonNull;
 
 public class DeviceModel {
 
-    int ID;
-    String UserID;
-    String timeStamp;
+    private int ID;
+    private String UserID;
+    private String timeStamp;
+    private double latitude;
+    private double longitude;
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+
 
     public int getID() {
         return ID;

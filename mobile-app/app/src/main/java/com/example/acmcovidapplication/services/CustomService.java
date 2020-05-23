@@ -1,5 +1,7 @@
 package com.example.acmcovidapplication.services;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -12,8 +14,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -43,11 +51,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
 import static com.example.acmcovidapplication.Util.setBluetooth;
@@ -69,7 +81,31 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public static final String TAG = "DB_CHECKER";
 
     private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+    private final AlarmReceiver alarmReceiver = new AlarmReceiver();
     String deviceId;
+    private LocationManager locationManager;
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            //your code here
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -77,8 +113,17 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         super.onCreate();
         setResources();
 
+        locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 100, mLocationListener);
+            return;
+        }
+
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
 
         Calendar c = Calendar.getInstance(); //gives u calendar with current time
         c.add(Calendar.SECOND, 30);
@@ -87,7 +132,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),
-                    AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
 
         }
         //deviceRepository = new DeviceRepository(this);
@@ -109,10 +154,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.app_icon)
+                .setSmallIcon(R.drawable.logo_4)
                 .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Keeping this app running will  save you from  \nbecoming a COVID-19 victim"))
-
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.app_icon))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Keeping this app running will save you from becoming a COVID-19 victim"))
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
@@ -171,16 +216,27 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     public void onBeaconServiceConnect() {
         beaconManager.removeAllRangeNotifiers();
         beaconManager.addRangeNotifier(new RangeNotifier() {
+            @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 for (Beacon beacon : beacons) {
                     Log.d(TAG, "I see a beacon ");
+                    double latitude = 0, longitude = 0;
+
                     if (beacon.getDistance() < MAX_DISTANCE) {
                         Log.d(TAG, "I see a beacon that is less than" + MAX_DISTANCE + " meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
+                        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
+                                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
-                        database_helper.addDevice(beacon.getId1().toString());
-                        // Perform distance-specific action here
+                             Location location =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                             latitude = location.getLatitude();
+                             longitude = location.getLongitude();
+                            // Perform distance-specific action here
+                        }
+
+
+                        database_helper.addDevice(beacon.getId1().toString(),latitude,longitude);
                     }
                 }
             }

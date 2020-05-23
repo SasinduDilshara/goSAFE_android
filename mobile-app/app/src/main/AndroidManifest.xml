@@ -33,6 +33,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".broadcast_receiver.AlarmReceiver" />
+
         <receiver android:name=".broadcast_receiver.StartupReceiver"
             android:enabled="true"
             android:exported="true"
