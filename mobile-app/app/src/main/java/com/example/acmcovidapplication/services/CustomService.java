@@ -83,7 +83,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     String deviceId;
     private LocationManager locationManager;
 
-    private final LocationListener mLocationListener = new LocationListener() {
+    /*private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
             //your code here
@@ -103,7 +103,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         public void onProviderDisabled(String provider) {
 
         }
-    };
+    };*/
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -111,13 +111,13 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         super.onCreate();
         setResources();
 
-        locationManager = (LocationManager) this
+        /*locationManager = (LocationManager) this
                 .getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 100, mLocationListener);
             return;
-        }
+        }*/
 
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
@@ -224,14 +224,14 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                     if (beacon.getDistance() < MAX_DISTANCE) {
                         Log.d(TAG, "I see a beacon that is less than" + MAX_DISTANCE + " meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
-                        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
+                        /*if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
                                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
                              Location location =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                              latitude = location.getLatitude();
                              longitude = location.getLongitude();
                             // Perform distance-specific action here
-                        }
+                        }*/
 
 
                         database_helper.addDevice(beacon.getId1().toString(),latitude,longitude);
