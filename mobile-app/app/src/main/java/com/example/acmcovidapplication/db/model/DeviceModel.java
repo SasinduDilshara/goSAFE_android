@@ -1,4 +1,4 @@
-package com.example.acmcovidapplication.db;
+package com.example.acmcovidapplication.db.model;
 
 import androidx.annotation.NonNull;
 

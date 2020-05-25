@@ -1,6 +1,7 @@
 package com.example.acmcovidapplication.db;
 
 
+import com.example.acmcovidapplication.db.model.DeviceModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
