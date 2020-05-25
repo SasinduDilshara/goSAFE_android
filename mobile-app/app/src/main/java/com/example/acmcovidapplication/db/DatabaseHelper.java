@@ -60,12 +60,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query_user_log, query_app_data, query_temp_log;
         //creating table
-        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT," +
+        query_user_log = "CREATE TABLE " + USER_LOG_TABLE_NAME +
+                "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "USERID TEXT," +
                 " TIMESTAMP_UP DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 " LATITUDE DOUBLE, LONGITUDE DOUBLE )";
-        query_app_data = "CREATE TABLE " + APP_DATA_TABLE_NAME + "(ID INTEGER PRIMARY KEY , USER_ID TEXT TYPE UNIQUE, IS_ALLOWED INTEGER  )";
+
+        query_app_data = "CREATE TABLE " + APP_DATA_TABLE_NAME +
+                "(ID INTEGER PRIMARY KEY , " +
+                "USER_ID TEXT TYPE UNIQUE, IS_ALLOWED INTEGER DEFAULT 0 CHECK(IS_ALLOWED == 1 OR IS_ALLOWED == 0), " +
+                "IS_LOCATION_TRACKABLE INTEGER DEFAULT 0 CHECK(IS_LOCATION_TRACKABLE == 1 OR IS_LOCATION_TRACKABLE == 0))";
+
         query_temp_log = "CREATE TABLE " + TEMPORARY_LOG_TABLE_NAME +
-                "( USER_ID TEXT PRIMARY KEY, TIMESTAMP_UP INTEGER )";
+                "( USER_ID TEXT PRIMARY KEY," +
+                " TIMESTAMP_UP INTEGER )";
 
 
         db.execSQL(query_user_log);
@@ -218,6 +226,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(APP_DATA_TABLE_NAME, newValues, "ID=1", null);
     }
 
+    public void insertLocationTrackable(boolean allowed) {
+        int i = 0;
+        if (allowed) {
+            i = 1;
+        }
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put("IS_LOCATION_TRACKABLE", i);
+
+        sqLiteDatabase.update(APP_DATA_TABLE_NAME, newValues, "ID=1", null);
+    }
     public void insertUserId(String user_id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues newValues = new ContentValues();
@@ -227,6 +246,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+
+
 
     public String getUserId() {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -241,7 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean getAllowed() {
+    public boolean isAllowed() {
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1", null);
         cursor.moveToFirst();
@@ -250,6 +271,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return isAllowed == 1;
     }
+
+    public boolean isLocationTrackable() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM " + APP_DATA_TABLE_NAME + " WHERE  ID = 1", null);
+        cursor.moveToFirst();
+
+        int isAllowed = cursor.getInt(cursor.getColumnIndex("IS_LOCATION_TRACKABLE"));
+        cursor.close();
+        return isAllowed == 1;
+    }
+
+
 
     private static class DeleteDeviceAsync extends AsyncTask<Integer, Void, Void> {
         DatabaseHelper database;

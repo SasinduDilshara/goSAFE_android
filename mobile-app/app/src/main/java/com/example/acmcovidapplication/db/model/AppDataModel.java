@@ -5,9 +5,16 @@ import androidx.annotation.NonNull;
 public class AppDataModel {
     int id;
     boolean isAllowed;
+    boolean isLocationTrackable;
     String  my_user_id;
 
+    public void setLocationTrackable(boolean locationTrackable) {
+        isLocationTrackable = locationTrackable;
+    }
 
+    public boolean isLocationTrackable() {
+        return isLocationTrackable;
+    }
 
     public void setId(int id) {
         this.id = id;

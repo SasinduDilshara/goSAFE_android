@@ -11,6 +11,8 @@
     <string name="device_id">DEVICE ID</string>
     <string name="extra_piece">C@s@E</string> <!-- this particular part will added to the mobile num-->
 
+    <integer name="location_update_intervel"> 300 </integer> <!-- in seconds -->
+
 
     <!-- database resource-->
     <string name="database_name"> user_log_db </string>

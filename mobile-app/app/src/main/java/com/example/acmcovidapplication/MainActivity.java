@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     String IS_ALLOWED = getString(R.string.is_allowed);
-                    boolean accepted = DatabaseHelper.getInstance(MainActivity.this).getAllowed();
+                    boolean accepted = DatabaseHelper.getInstance(MainActivity.this).isAllowed();
 
                     if(accepted){
                         Intent intent = new Intent(MainActivity.this, permission_list.class);
