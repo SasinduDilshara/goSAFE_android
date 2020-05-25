@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     boolean accepted = DatabaseHelper.getInstance(MainActivity.this).getAllowed();
 
                     if(accepted){
-                        Intent intent = new Intent(MainActivity.this, share.class);
+                        Intent intent = new Intent(MainActivity.this, permission_list.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }

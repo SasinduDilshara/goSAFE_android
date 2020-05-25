@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".permission_list">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/transparent_light_curved"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth : ON"
+            android:textSize="20dp"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="20dp"/>
+
+        <ImageView
+            android:layout_width="71dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
+            android:layout_toEndOf="@+id/t1"
+            android:layout_toRightOf="@+id/t1"
+            android:src="@drawable/round_offline_pin_black_24dp" />
+    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/transparent_light_curved"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/t2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location  : ON"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="20dp"/>
+
+            <ImageView
+                android:layout_width="71dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="160dp"
+                android:layout_marginLeft="160dp"
+                android:layout_toEndOf="@+id/t2"
+                android:layout_toRightOf="@+id/t2"
+                android:src="@drawable/round_offline_pin_black_24dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/transparent_light_curved"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/t3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location Tracing"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="20dp"/>
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_toEndOf="@+id/t3"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="60dp"
+                android:text=""
+                android:checked="true"
+                android:textOff="OFF"
+                android:textOn="ON"
+                android:layout_toRightOf="@+id/t3" />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</RelativeLayout>

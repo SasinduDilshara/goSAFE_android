@@ -47,7 +47,7 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     }
 
     public void allowAccess(View view) {
-        Intent intent = new Intent(appPermission.this, share.class);
+        Intent intent = new Intent(appPermission.this, permission_list.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
@@ -88,21 +88,15 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-
             new AppSettingsDialog.Builder(this).build().show();
-
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             finish();
-
         }
-
-
     }
+
 }

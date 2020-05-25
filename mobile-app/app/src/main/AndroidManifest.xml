@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.acmcovidapplication">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".App"
@@ -19,13 +19,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home" android:screenOrientation="portrait"></activity>
-        <activity android:name=".about" android:screenOrientation="portrait"/>
-        <activity android:name=".share" android:screenOrientation="portrait"/>
-        <activity android:name=".appPermission" android:screenOrientation="portrait"/>
-        <activity android:name=".otp_entering" android:screenOrientation="portrait"/>
-        <activity android:name=".login"  android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity android:name=".permission_list"></activity>
+        <activity
+            android:name=".Home"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".about"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".share"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".appPermission"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".otp_entering"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +49,8 @@
         </activity>
 
         <receiver android:name=".broadcast_receiver.AlarmReceiver" />
-
-        <receiver android:name=".broadcast_receiver.StartupReceiver"
+        <receiver
+            android:name=".broadcast_receiver.StartupReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.REBOOT">
@@ -45,7 +60,10 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.CustomService"/>
-        <service android:name=".services.CustomJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".services.CustomService" />
+        <service
+            android:name=".services.CustomJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
+
 </manifest>
