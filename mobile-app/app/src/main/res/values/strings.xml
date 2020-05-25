@@ -33,4 +33,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string name="on"><b> ON</b></string>
+    <string name="off"><b> OFF</b></string>
+    <string name="location_enabling">Enabling this feature will help us keep you safer. But note that it will consume more power</string>
 </resources>
