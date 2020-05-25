@@ -32,8 +32,6 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         DatabaseHelper.getInstance(this).insertAllowed(true);
-
-
     }
 
     @Override

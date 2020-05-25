@@ -52,4 +52,9 @@ public class share extends AppCompatActivity {
         Intent intent = new Intent(share.this, about.class);
         startActivity(intent);
     }
+
+    public void goToPermissionList(View view){
+        Intent intent = new Intent(share.this, permission_list.class);
+        startActivity(intent);
+    }
 }
