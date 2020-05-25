@@ -1,24 +1,25 @@
 package com.example.acmcovidapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import pub.devrel.easypermissions.EasyPermissions;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.acmcovidapplication.services.CustomService;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class share extends AppCompatActivity {
     String[] permissions = Util.getPermissions();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
     }
+
     public void shareApp(View view) {
 
         Intent sendIntent = new Intent();
@@ -34,13 +35,12 @@ public class share extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!EasyPermissions.hasPermissions(this, permissions)) {
-            if (!EasyPermissions.hasPermissions(this, permissions)) {
-                Intent intent = new Intent(this, appPermission.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        }
-        else{
+            stopService(new Intent(this,CustomService.class));
+            Intent intent = new Intent(this, appPermission.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        } else {
             Intent serviceIntent = new Intent(this, CustomService.class);
 
             ContextCompat.startForegroundService(this, serviceIntent);
