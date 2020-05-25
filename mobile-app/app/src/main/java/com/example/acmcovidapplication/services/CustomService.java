@@ -30,8 +30,8 @@ import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.broadcast_receiver.AlarmReceiver;
 import com.example.acmcovidapplication.broadcast_receiver.NetworkStateReceiver;
 import com.example.acmcovidapplication.db.DatabaseHelper;
-import com.example.acmcovidapplication.db.DeviceModel;
 import com.example.acmcovidapplication.db.FirebaseHelper;
+import com.example.acmcovidapplication.db.model.DeviceModel;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;

@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.acmcovidapplication.R;
+import com.example.acmcovidapplication.db.model.DeviceModel;
 
 import java.util.ArrayList;
 
