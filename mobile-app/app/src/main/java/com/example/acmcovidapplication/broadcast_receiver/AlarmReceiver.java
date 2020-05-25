@@ -8,6 +8,9 @@ import android.util.Log;
 
 import com.example.acmcovidapplication.Util;
 import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.services.CustomService;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import static com.example.acmcovidapplication.services.CustomService.TAG;
 
@@ -16,9 +19,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //Toast.makeText(context,"alrm manager",Toast.LENGTH_SHORT);
         Log.d(TAG, "onReceive: is running");
+        Intent intent1 = new Intent(CustomService.ACTION_KEEP_TRANSMITTER_ALIVE);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
 
-            Log.d(TAG, "onReceive: internet is available");
-            new CheckInternetAndDeleteAsync().execute(context);
+        new CheckInternetAndDeleteAsync().execute(context);
+
 
     }
 
@@ -26,7 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         @Override
         protected Boolean doInBackground(Context... contexts) {
-            if(Util.isInternetAvailable()){
+
+            if (Util.isInternetAvailable()) {
+                Log.d(TAG, "onReceive: internet is available");
                 DatabaseHelper.getInstance(contexts[0]).deleteAllTempData();
             }
             return true;
