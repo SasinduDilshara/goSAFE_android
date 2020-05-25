@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".permission_list"></activity>
+        <activity
+            android:name=".permission_list"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Home"
             android:screenOrientation="portrait" />
