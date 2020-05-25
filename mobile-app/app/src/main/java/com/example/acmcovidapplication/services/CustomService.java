@@ -131,12 +131,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 .getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
+            //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
             locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
-            isNetworkProviderEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            isGpsProviderEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            isPassiveProviderEnable = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+
             return;
         }
 
@@ -180,7 +178,9 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 .build();
 
         startForeground(FOREGROUND_ID, notification);
-
+        isNetworkProviderEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        isGpsProviderEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isPassiveProviderEnable = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Util.scheduleJobHelper(this);
         }
@@ -252,13 +252,13 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                                 longitude = location.getLongitude();
                                 Log.d(TAG, "didRangeBeaconsInRegion NETWORK:\n latitude - " + latitude + " longitude - " + longitude);
                             }
-                            else if(isGpsProviderEnable ) {
+                            /*else if(isGpsProviderEnable ) {
                                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
                                 Log.d(TAG, "didRangeBeaconsInRegion GPS:\n latitude - " + latitude + " longitude - " + longitude);
 
-                            }
+                            }*/
                             else if(isPassiveProviderEnable){
                                 Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                                 latitude = location.getLatitude();
