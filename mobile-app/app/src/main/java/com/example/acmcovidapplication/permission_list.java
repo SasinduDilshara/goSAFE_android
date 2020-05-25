@@ -5,9 +5,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
@@ -38,6 +41,11 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
 
             DatabaseHelper.getInstance(this).insertLocationTrackable(isChecked);
             LocalBroadcastManager.getInstance(this).sendBroadcast(CustomService.makeIntent(isChecked));
-
+            RelativeLayout box=findViewById(R.id.l2);
+            if (isChecked){
+                box.setVisibility(View.VISIBLE);
+            }else{
+                box.setVisibility(View.GONE);
+            }
     }
 }
