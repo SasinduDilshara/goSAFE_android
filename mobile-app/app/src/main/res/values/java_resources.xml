@@ -3,7 +3,7 @@
     <item format="float" name="max_distance" type="dimen">  3.5 </item>
     <integer name="scan_period"> 15000 </integer>
     <integer name="upload_period"> 900000 </integer>
-    <integer name="time_between_scan"> 120000 </integer>
+    <integer name="time_between_scan"> 105000 </integer>
     <integer name="update_period">60</integer> <!-- in minutes -->
 
 
