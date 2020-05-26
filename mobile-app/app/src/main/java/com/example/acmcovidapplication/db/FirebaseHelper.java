@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,10 +39,11 @@ public class FirebaseHelper {
             calendar.add(Calendar.MINUTE,30);
             date = calendar.getTime();
 //            System.out.println(date);
+            GeoPoint location = new GeoPoint(deviceModel.getLatitude(),deviceModel.getLongitude());
+
             Map<String, Object> data = new HashMap<>();
             data.put("timestamp", date);
-            data.put("latitude", deviceModel.getLatitude());
-            data.put("longitude", deviceModel.getLongitude());
+            data.put("location",location);
 
             db.collection("users")
                     .document(uid)
