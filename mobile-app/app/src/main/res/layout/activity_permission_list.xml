@@ -154,19 +154,22 @@
 
             <Switch
                 android:id="@+id/switch1"
-                android:layout_toEndOf="@+id/t3"
-                android:layout_marginStart="100dp"
                 android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:switchMinWidth="60dp"
-                android:checked="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_toEndOf="@+id/t3"
                 android:layout_toRightOf="@+id/t3"
-                android:layout_marginLeft="100dp" />
+                android:checked="true"
+                android:switchMinWidth="60dp" />
         </RelativeLayout>
         <TextView
             android:layout_marginVertical="20dp"
             android:layout_gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:gravity="center"
             android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
