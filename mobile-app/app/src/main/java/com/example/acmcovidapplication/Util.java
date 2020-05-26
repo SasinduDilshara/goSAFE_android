@@ -7,8 +7,6 @@ import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
@@ -18,12 +16,9 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.URL;
-import java.util.Calendar;
 
 import androidx.annotation.RequiresApi;
 
@@ -51,7 +46,8 @@ public class Util {
             return permissions;
         }
         else {
-            String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+            String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION};
             return permissions;
         }
     }
