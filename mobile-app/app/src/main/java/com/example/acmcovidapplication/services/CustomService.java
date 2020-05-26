@@ -103,21 +103,45 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         @Override
         public void onLocationChanged(final Location location) {
             //your code here
+            Log.d(TAG, "onLocationChanged: " +
+                    "\nlatitude - " +location.getLatitude() +"  longitude - " + location.getLongitude() );
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
+            Log.d(TAG, "onStatusChanged: ");
         }
 
         @Override
         public void onProviderEnabled(String provider) {
+            /*Log.d(TAG, "onProviderEnabled: ");
+            if(provider.equals("network")){
+                Log.d(TAG, "onProviderDisabled: network provider enabled");
+                isNetworkProviderEnable = true;
+            }
 
+            if(provider.equals(LocationManager.PASSIVE_PROVIDER)){
+                Log.d(TAG, "onProviderDisabled: passive provider enabled");
+                isPassiveProviderEnable = true;
+            }*/
         }
 
         @Override
         public void onProviderDisabled(String provider) {
+            /*if(provider == LocationManager.GPS_PROVIDER){
+                Log.d(TAG, "onProviderDisabled: gps provider disabled");
+                isGpsProviderEnable = false;
+            }*/
+            /*Log.d(TAG, "onProviderDisabled: ");
+            if(provider.equals("network")){
+                Log.d(TAG, "onProviderDisabled: network provider enabled");
+                isNetworkProviderEnable = true;
+            }
 
+            if(provider == LocationManager.PASSIVE_PROVIDER){
+                Log.d(TAG, "onProviderDisabled: passive provider disabled");
+                isPassiveProviderEnable = false;
+            }*/
         }
     };
 
@@ -254,8 +278,18 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         if (isLocationTrackable) {
                             if ( isNetworkProviderEnable ) {
                                 Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+
+                                if(location == null) {
+                                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                            LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
+
+                                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                                }
+                                if(location !=null) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                                }
                                 Log.d(TAG, "didRangeBeaconsInRegion NETWORK:\n latitude - " + latitude + " longitude - " + longitude);
                             }
                             /*else if(isGpsProviderEnable ) {
@@ -267,8 +301,18 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                             }*/
                             else if(isPassiveProviderEnable){
                                 Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                                if(location == null) {
+                                    locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,
+                                            LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
+
+                                    location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+                                }
+                                if(location !=null) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                                }
+                                Log.d(TAG, "didRangeBeaconsInRegion NETWORK:\n latitude - " + latitude + " longitude - " + longitude);
                                 Log.d(TAG, "didRangeBeaconsInRegion passive:\n latitude - " + latitude + " longitude - " + longitude);
 
                             }
