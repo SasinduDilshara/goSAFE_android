@@ -28,6 +28,7 @@ public class FirebaseHelper {
 
         //timestamp format --> "2020-05-18 07:42:24"
         String uid = firebaseUser.getUid();
+        String owner_id =  databaseHelper.getUserId();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
