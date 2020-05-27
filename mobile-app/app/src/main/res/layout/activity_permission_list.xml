@@ -8,10 +8,13 @@
 
     <RelativeLayout
         android:id="@+id/appbar"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/main"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
