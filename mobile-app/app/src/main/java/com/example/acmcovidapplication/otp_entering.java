@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
+import com.example.acmcovidapplication.db.FirebaseHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -26,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.example.acmcovidapplication.Util.generateHash;
+
 
 public class otp_entering extends AppCompatActivity {
     private EditText code_1;
@@ -38,6 +41,7 @@ public class otp_entering extends AppCompatActivity {
     private String verificationId;
     private FirebaseAuth mAuth;
     PhoneAuthProvider.ForceResendingToken token;
+    FirebaseHelper firebasehelper = new FirebaseHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,9 +193,10 @@ public class otp_entering extends AppCompatActivity {
                             Intent intent = new Intent(otp_entering.this, appPermission.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
-                            String userId = Util.generateHash(phoneNumber,otp_entering.this);
+                            String userId = generateHash(phoneNumber,otp_entering.this);
                             Context context = otp_entering.this;
                             DatabaseHelper.getInstance(otp_entering.this).insertUserId(userId);
+                            firebasehelper.onCreteUser(generateHash(phoneNumber,otp_entering.this));
                         } else {
                             Toast.makeText(otp_entering.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
