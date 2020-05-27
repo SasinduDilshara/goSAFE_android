@@ -73,6 +73,7 @@ public class FirebaseHelper {
     public void onCreteUser(String id){
         Map<String, Object> data = new HashMap<>();
         data.put("bluetooth id",id);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db.collection("users")
                 .document(firebaseUser.getUid())
