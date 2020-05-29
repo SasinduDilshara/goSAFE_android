@@ -2,6 +2,7 @@ package com.example.acmcovidapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -18,6 +19,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static com.example.acmcovidapplication.Util.isMyServiceRunning;
 
 public class permission_list extends AppCompatActivity implements Switch.OnCheckedChangeListener {
+    private static final String TAG = "permission_list" ;
     Switch aSwitch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +53,16 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume: is running");
         if (!EasyPermissions.hasPermissions(this, Util.getPermissions()) ) {
+            DatabaseHelper.getInstance(this).insertAllowed(false);
             stopService(new Intent(this,CustomService.class));
             Intent intent = new Intent(this, appPermission.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if( !isMyServiceRunning(this,CustomService.class)) {
+            Log.d(TAG, "onResume: service is not running");
             Intent serviceIntent = new Intent(this, CustomService.class);
 
             ContextCompat.startForegroundService(this, serviceIntent);

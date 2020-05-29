@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    String IS_ALLOWED = getString(R.string.is_allowed);
                     boolean accepted = DatabaseHelper.getInstance(MainActivity.this).isAllowed();
 
                     if(accepted){
