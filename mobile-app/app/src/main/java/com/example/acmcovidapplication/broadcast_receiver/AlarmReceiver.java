@@ -24,7 +24,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         new CheckInternetAndDeleteAsync().execute(context);
 
+        /*if( !isMyServiceRunning(context,CustomService.class)) {
+            Intent serviceIntent = new Intent(context, CustomService.class);
 
+            ContextCompat.startForegroundService(context, serviceIntent);
+            Log.d(TAG, "onReceive: service not started now only started");
+        }*/
     }
 
     private static class CheckInternetAndDeleteAsync extends AsyncTask<Context, Void, Boolean> {
