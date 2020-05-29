@@ -1,20 +1,21 @@
 package com.example.acmcovidapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.services.CustomService;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.example.acmcovidapplication.Util.isMyServiceRunning;
 
 public class permission_list extends AppCompatActivity implements Switch.OnCheckedChangeListener {
     Switch aSwitch;
@@ -46,4 +47,26 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
                 box.setVisibility(View.GONE);
             }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!EasyPermissions.hasPermissions(this, Util.getPermissions()) ) {
+            stopService(new Intent(this,CustomService.class));
+            Intent intent = new Intent(this, appPermission.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        } else if( !isMyServiceRunning(this,CustomService.class)) {
+            Intent serviceIntent = new Intent(this, CustomService.class);
+
+            ContextCompat.startForegroundService(this, serviceIntent);
+        }
+    }
+
+
+
+
+
+
 }

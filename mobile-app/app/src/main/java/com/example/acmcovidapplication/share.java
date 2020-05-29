@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static com.example.acmcovidapplication.Util.isMyServiceRunning;
+
 public class share extends AppCompatActivity {
     String[] permissions = Util.getPermissions();
 
@@ -35,17 +37,18 @@ public class share extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!EasyPermissions.hasPermissions(this, permissions)) {
-            stopService(new Intent(this,CustomService.class));
+            stopService(new Intent(this, CustomService.class));
             Intent intent = new Intent(this, appPermission.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
-        } else {
+        } else if (!isMyServiceRunning(this, CustomService.class)) {
             Intent serviceIntent = new Intent(this, CustomService.class);
 
             ContextCompat.startForegroundService(this, serviceIntent);
-
         }
+
+
     }
 
     public void goToAbout(View view) {
@@ -53,7 +56,7 @@ public class share extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToPermissionList(View view){
+    public void goToPermissionList(View view) {
         Intent intent = new Intent(share.this, permission_list.class);
         startActivity(intent);
     }

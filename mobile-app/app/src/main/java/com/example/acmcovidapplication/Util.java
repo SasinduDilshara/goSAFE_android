@@ -2,6 +2,7 @@ package com.example.acmcovidapplication;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
@@ -97,6 +98,17 @@ public class Util {
         String s = new String(Hex.encodeHex(DigestUtils.md5(string + context.getString(R.string.extra_piece)))); // refer string resource file in java_resource.xml
         return s;
 
+    }
+
+    public static  boolean isMyServiceRunning(Context context , Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        assert manager != null;
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -199,7 +199,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        Log.d(TAG, "onStartCommand: called");
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo_4)
                 .setContentTitle(this.getResources().getString(R.string.app_name) + " is active")
