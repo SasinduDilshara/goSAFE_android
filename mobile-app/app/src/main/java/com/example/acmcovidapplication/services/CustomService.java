@@ -222,12 +222,12 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             Log.d(TAG, "onCreate: bluetooth is disabled");
             setBluetooth(true);
         } else {
-            if (database_helper.isAllowed()
+            if (DatabaseHelper.getInstance(this).isAllowed()
                     && deviceId != null) {
                 setupBeacon(deviceId);
             } else {
-                if (deviceId == null) {
-                    deviceId = database_helper.getUserId();
+                if (DatabaseHelper.getInstance(this).isAllowed() && deviceId == null) {
+                    deviceId = DatabaseHelper.getInstance(this).getUserId();
                     setupBeacon(deviceId);
                 } else {
                     stopSelf();
@@ -242,7 +242,14 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mReceiver);
+        Log.d(TAG, "onDestroy: called");
+        try {
+            unregisterReceiver(mReceiver);
+        }
+        catch (IllegalArgumentException iae){
+            Log.d(TAG, "onDestroy: not registered"); // check how this cause
+        }
+        
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
@@ -253,6 +260,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
             scheduler.cancel(123);
         }
+        beaconManager.unbind(this);
     }
 
     @Nullable

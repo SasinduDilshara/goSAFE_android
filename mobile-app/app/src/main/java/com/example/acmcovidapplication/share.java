@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.services.CustomService;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class share extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!EasyPermissions.hasPermissions(this, permissions)) {
+            DatabaseHelper.getInstance(this).insertAllowed(false);
             stopService(new Intent(this, CustomService.class));
             Intent intent = new Intent(this, appPermission.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
