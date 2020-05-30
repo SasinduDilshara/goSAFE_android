@@ -101,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //add the new note
-    public void addDevice(String userId,double latitude,double longitude) {
+    public void addDevice(String userId, double latitude, double longitude) {
 
         String select_query = "SELECT * FROM " + TEMPORARY_LOG_TABLE_NAME + " WHERE USER_ID = '" + userId + "'";
 
@@ -110,41 +110,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(select_query, null);
 
         if (cursor.moveToFirst()) {
-                long result = cursor.getInt(1);
-                long now = (long)System.currentTimeMillis()/10000;
-                long difference = now -result;
+            long result = cursor.getInt(1);
+            long now = (long) System.currentTimeMillis() / 10000;
+            long difference = now - result;
 
-                if (difference> update_time * 6) {
+            if (difference > update_time * 6) {
 
-                    DeviceModel deviceModel = new DeviceModel();
-                    deviceModel.setUserID(userId);
-                    if(latitude != 0 && longitude != 0) {
-                        deviceModel.setLatitude(latitude);
-                        deviceModel.setLongitude(longitude);
-                    }
-                    new InsertDeviceAsync(this).execute(deviceModel);
-                    ContentValues cv = new ContentValues();
-                    cv.put("USER_ID", userId);
-                    cv.put("TIMESTAMP_UP",(long)(System.currentTimeMillis()/10000));
-                    db.update(TEMPORARY_LOG_TABLE_NAME, cv, " USER_ID = '" + userId + "'", null);
-                    Log.d(TAG, "addDevice: log table updated");
-
-                } else {
-
-                     Log.d(TAG, "addDevice: no need to insert");
+                DeviceModel deviceModel = new DeviceModel();
+                deviceModel.setUserID(userId);
+                if (latitude != 0 && longitude != 0) {
+                    deviceModel.setLatitude(latitude);
+                    deviceModel.setLongitude(longitude);
                 }
+                new InsertDeviceAsync(this).execute(deviceModel);
+                ContentValues cv = new ContentValues();
+                cv.put("USER_ID", userId);
+                cv.put("TIMESTAMP_UP", (long) (System.currentTimeMillis() / 10000));
+                db.update(TEMPORARY_LOG_TABLE_NAME, cv, " USER_ID = '" + userId + "'", null);
+                Log.d(TAG, "addDevice: log table updated");
 
+            } else {
+
+                Log.d(TAG, "addDevice: no need to insert");
+            }
 
 
         } else {
             ContentValues cv = new ContentValues();
             cv.put("USER_ID", userId);
-            cv.put("TIMESTAMP_UP",(long)(System.currentTimeMillis()/10000));
+            cv.put("TIMESTAMP_UP", (long) (System.currentTimeMillis() / 10000));
             Log.d(TAG, "addDevice: added to log table");
             db.insert(TEMPORARY_LOG_TABLE_NAME, null, cv);
-            DeviceModel deviceModel= new DeviceModel();
+            DeviceModel deviceModel = new DeviceModel();
             deviceModel.setUserID(userId);
-            if(latitude != 0 && longitude != 0) {
+            if (latitude != 0 && longitude != 0) {
                 deviceModel.setLatitude(latitude);
                 deviceModel.setLongitude(longitude);
             }
@@ -175,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 deviceModel.setID(cursor.getInt(cursor.getColumnIndex("ID")));
                 deviceModel.setUserID(cursor.getString(1));
                 deviceModel.setTimeStamp(cursor.getString(2));
-                deviceModel.setLatitude(cursor.getDouble(cursor.getColumnIndex("LATITUDE")) );
+                deviceModel.setLatitude(cursor.getDouble(cursor.getColumnIndex("LATITUDE")));
                 deviceModel.setLongitude(cursor.getDouble(cursor.getColumnIndex("LONGITUDE")));
                 arrayList.add(deviceModel);
             } while (cursor.moveToNext());
@@ -208,7 +207,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "deleteAllDevice: called from alarm manager");
     }
 
-    public void deleteAllTempData(){
+    public void deleteAllTempData() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("DELETE FROM " + TEMPORARY_LOG_TABLE_NAME);
         Log.d(TAG, "deleteAllTempData: called from by alarm manager");
@@ -237,7 +236,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.update(APP_DATA_TABLE_NAME, newValues, "ID=1", null);
     }
-    public void insertUserId(String user_id) {
+
+    public  void  insertUserId(String user_id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues newValues = new ContentValues();
         newValues.put("USER_ID", user_id);
@@ -246,7 +246,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
-
 
 
     public String getUserId() {
@@ -283,7 +282,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     private static class DeleteDeviceAsync extends AsyncTask<Integer, Void, Void> {
         DatabaseHelper database;
 
@@ -317,10 +315,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put("USERID", deviceModels[0].getUserID());
 
-            values.put("LATITUDE",deviceModels[0].getLatitude());
-            values.put("LONGITUDE",deviceModels[0].getLongitude());
-
-
+            values.put("LATITUDE", deviceModels[0].getLatitude());
+            values.put("LONGITUDE", deviceModels[0].getLongitude());
 
 
             //inserting new row
