@@ -30,6 +30,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="otp_hint">The code we send to you will expire in 60 seconds. You can tap on the resend option that will appear on your screen after 60 seconds to retry or recheck your mobile number</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 

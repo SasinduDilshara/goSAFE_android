@@ -207,7 +207,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="The code we send to you will expire in 60 seconds. You can tap on the resend option that will appear on your screen after 60 seconds to retry."
+                android:text="@string/otp_hint"
                 android:textColor="@color/colorAccent"
                 android:textSize="15sp" />
 
