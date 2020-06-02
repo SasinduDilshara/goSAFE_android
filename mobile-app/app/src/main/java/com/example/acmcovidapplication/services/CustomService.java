@@ -178,7 +178,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
 
         }
         //deviceRepository = new DeviceRepository(this);
