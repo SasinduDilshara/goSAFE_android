@@ -2,12 +2,14 @@ package com.example.acmcovidapplication;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -27,6 +29,8 @@ import static android.content.Context.JOB_SCHEDULER_SERVICE;
 import static com.example.acmcovidapplication.services.CustomService.TAG;
 
 public class Util {
+    public static final int REQUEST_ENABLE_BT = 1;
+
     public static boolean setBluetooth(boolean enable) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         boolean isEnabled = bluetoothAdapter.isEnabled();
@@ -38,7 +42,18 @@ public class Util {
         // No need to change bluetooth state
         return true;
     }
+    public static void requestBluetooth(Context context){
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
+        }
 
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            enableBtIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(enableBtIntent);
+        }
+    }
     public static String[] getPermissions(){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
