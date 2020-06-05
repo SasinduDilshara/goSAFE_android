@@ -28,6 +28,7 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
         aSwitch = findViewById(R.id.switch1);
         aSwitch.setOnCheckedChangeListener(this);
         aSwitch.setChecked(DatabaseHelper.getInstance(this).isLocationTrackable());
+        Util.requestBluetooth(this);
     }
 
     public void goToShare(View view) {
@@ -66,7 +67,9 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
             Intent serviceIntent = new Intent(this, CustomService.class);
 
             ContextCompat.startForegroundService(this, serviceIntent);
+
         }
+
     }
 
 

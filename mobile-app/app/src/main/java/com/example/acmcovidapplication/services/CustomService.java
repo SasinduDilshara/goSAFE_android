@@ -61,9 +61,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
 import static com.example.acmcovidapplication.App.CHANNEL_ID;
-import static com.example.acmcovidapplication.Util.setBluetooth;
 
 
 public class CustomService extends Service implements BeaconConsumer, LifecycleOwner,
@@ -71,6 +69,8 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
     private BeaconManager beaconManager;
     BeaconTransmitter beaconTransmitter;
     Beacon beacon;
+    BeaconParser beaconParser = new BeaconParser()
+            .setBeaconLayout(BEACON_LAYOUT);
 
     private static final int FOREGROUND_ID = 1;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -104,7 +104,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         public void onLocationChanged(final Location location) {
             //your code here
             Log.d(TAG, "onLocationChanged: " +
-                    "\nlatitude - " +location.getLatitude() +"  longitude - " + location.getLongitude() );
+                    "\nlatitude - " + location.getLatitude() + "  longitude - " + location.getLongitude());
         }
 
         @Override
@@ -220,15 +220,18 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
             Log.d(TAG, "onCreate: devise bluetooth not supported");
         } else if (!mBluetoothAdapter.isEnabled()) {
             Log.d(TAG, "onCreate: bluetooth is disabled");
-            setBluetooth(true);
+            //setBluetooth(true);
+            Util.requestBluetooth(this);
         } else {
             if (DatabaseHelper.getInstance(this).isAllowed()
                     && deviceId != null) {
-                setupBeacon(deviceId);
+                setupTransmit(deviceId);
+                setupScan();
             } else {
                 if (DatabaseHelper.getInstance(this).isAllowed() && deviceId == null) {
                     deviceId = DatabaseHelper.getInstance(this).getUserId();
-                    setupBeacon(deviceId);
+                    setupTransmit(deviceId);
+                    setupScan();
                 } else {
                     stopSelf();
                 }
@@ -245,11 +248,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         Log.d(TAG, "onDestroy: called");
         try {
             unregisterReceiver(mReceiver);
-        }
-        catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             Log.d(TAG, "onDestroy: not registered"); // check how this cause
         }
-        
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
@@ -284,17 +286,17 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                         Log.d(TAG, "I see a beacon that is less than" + MAX_DISTANCE + " meters away.");
                         //deviceRepository.insert(new Device( beacon.getId1().toString(), System.currentTimeMillis()));
                         if (isLocationTrackable) {
-                            if ( isNetworkProviderEnable ) {
+                            if (isNetworkProviderEnable) {
                                 Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-                                if(location == null) {
+                                if (location == null) {
                                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                                             LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
 
                                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                                 }
-                                if(location !=null) {
+                                if (location != null) {
                                     latitude = location.getLatitude();
                                     longitude = location.getLongitude();
                                 }
@@ -307,16 +309,16 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                                 Log.d(TAG, "didRangeBeaconsInRegion GPS:\n latitude - " + latitude + " longitude - " + longitude);
 
                             }*/
-                            else if(isPassiveProviderEnable){
+                            else if (isPassiveProviderEnable) {
                                 Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-                                if(location == null) {
+                                if (location == null) {
                                     locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,
                                             LOCATION_UPDATE_INTERVAL * 1000, 100, mLocationListener);
 
                                     location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
                                 }
-                                if(location !=null) {
+                                if (location != null) {
                                     latitude = location.getLatitude();
                                     longitude = location.getLongitude();
                                 }
@@ -346,10 +348,13 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
     //this will transmit the beacon
 
-    private void setupBeacon(String deviceId) {
-        BeaconParser beaconParser = new BeaconParser()
-                .setBeaconLayout(BEACON_LAYOUT);
-        if (beaconTransmitter == null || beacon == null) {
+    private void setupTransmit(String deviceId) {
+
+        if (beaconTransmitter == null) {
+            beaconTransmitter = new BeaconTransmitter(this, beaconParser);
+        }
+
+        if (beacon == null) {
             beacon = new Beacon.Builder()
                     .setId1(deviceId) // need to generate ids device specific
                     .setId2("1")
@@ -359,29 +364,33 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                     .setDataFields(Collections.singletonList(0L))
                     .build();
 
-            beaconTransmitter = new BeaconTransmitter(this, beaconParser);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                beaconTransmitter.setAdvertiseTxPowerLevel(ADVERTISE_TX_POWER_LOW);
-            }
         }
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            beaconTransmitter.setAdvertiseTxPowerLevel(ADVERTISE_TX_POWER_LOW);
+        }*/
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!beaconTransmitter.isStarted()) {
-                beaconTransmitter.startAdvertising(beacon, new AdvertiseCallback() {
-                    @Override
-                    public void onStartSuccess(AdvertiseSettings settingsInEffect) {
-                        super.onStartSuccess(settingsInEffect);
-                        Log.i(TAG, "Advertisement start succeeded.");
-                    }
 
-                    @Override
-                    public void onStartFailure(int errorCode) {
-                        super.onStartFailure(errorCode);
-                        Log.e(TAG, "Advertisement start failed with code: " + errorCode);
-                    }
-                });
-            }
+            beaconTransmitter.startAdvertising(beacon, new AdvertiseCallback() {
+                @Override
+                public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+                    super.onStartSuccess(settingsInEffect);
+                    Log.i(TAG, "Advertisement start succeeded.");
+                }
+
+                @Override
+                public void onStartFailure(int errorCode) {
+                    super.onStartFailure(errorCode);
+                    Log.e(TAG, "Advertisement start failed with code: " + errorCode);
+                }
+            });
+
         }
 
+
+    }
+
+    private void setupScan() {
         if (beaconManager == null) {
             beaconManager = BeaconManager.getInstanceForApplication(this);
 
@@ -393,9 +402,7 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
         beaconManager.setBackgroundScanPeriod(10000);*/
             beaconManager.bind(this);
         }
-
     }
-
 
     @NonNull
     @Override
@@ -498,19 +505,22 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
                 switch (state) {
                     case BluetoothAdapter.STATE_OFF:
                         //
+                        Util.requestBluetooth(CustomService.this);
                         break;
                     case BluetoothAdapter.STATE_TURNING_OFF:
                         //when ever user try to turn off bluetooth this method swill turn it on again
-                        setBluetooth(true);
+                        // setBluetooth(true);
                         break;
                     case BluetoothAdapter.STATE_ON:
                         if (database_helper.isAllowed()
                                 && deviceId != null) {
-                            setupBeacon(deviceId);
+                            setupTransmit(deviceId);
+                            setupScan();
                         } else {
                             if (deviceId == null) {
                                 deviceId = database_helper.getUserId();
-                                setupBeacon(deviceId);
+                                setupTransmit(deviceId);
+                                setupScan();
                             } else {
                                 stopSelf();
                             }
@@ -532,10 +542,10 @@ public class CustomService extends Service implements BeaconConsumer, LifecycleO
 
             if (intent.getAction().matches(ACTION_PROVIDERS_CHANGED)) {
 
-                CustomService.this. isNetworkProviderEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                CustomService.this.isNetworkProviderEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-                CustomService.this. isGpsProviderEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                CustomService.this. isPassiveProviderEnable = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+                CustomService.this.isGpsProviderEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                CustomService.this.isPassiveProviderEnable = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
 
                 Log.d(TAG, "onReceive: from gpsState receiver" +
                         "\n1. isNetworkProviderEnable - " + isNetworkProviderEnable +
