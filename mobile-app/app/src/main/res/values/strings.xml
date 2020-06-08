@@ -15,14 +15,19 @@
     <string name="about_dev">This application was developed by the ACM Student Chapter of University of Moratuwa with the aim of assisting Sri Lanka in the fight against COVID-19.We express our heartfelt gratitude towards our development crew for their immense support for our journey towards reaching our goal.</string>
     <string name="about_acm">ACM is an international learned society for computing that was founded in 1947. As a student chapter of ACM, we always strive to use our skills for the betterment of the society.</string>
 
-    <string name="login_text1">ENTER YOUR MOBILE NUMBER HERE</string>
+    <string name="login_text1">Enter your mobile number here</string>
     <string name="login_text2">YOUR PHONE NUMBER WILL BE USED TO CONTACT YOU IF YOU WERE FOUND AROUND A PATIENT</string>
-    <string name="login_text3">WE HAVE SENT AN OTP NUMBER TO VERIFY YOUR MOBILE NUMBER. PRESS LOGIN TO ENTER THE OTP NUMBER</string>
+    <string name="login_text3">On the next step, We will be sending you an OTP to verify your mobile number</string>
+    <string name="login_text4">Your phone number will only be used to contact you if you were found nere a patient</string>
     <string name="login_1_btn"><b>LOGIN</b></string>
 
-    <string name="permission_1">ALLOW <b>goSAFE</b> ACCESS BLUETOOTH</string>
-    <string name="permission_2">ALLOW <b>goSAFE</b> SEND NOTIFICATIONS</string>
-    <string name="permission_3">ALLOW <b>goSAFE</b> STORE YOUR MOBILE NUMBER IN ITS SECURE REGISTRY</string>
+    <string name="permission">We need your permission to access the following services to enable app services</string>
+    <string name="permission_1">Allow <b>Bluetooth</b> access</string>
+    <string name="permission_11">To keep track of users near by you</string>
+    <string name="permission_2">Allow <b>Notification</b> access</string>
+    <string name="permission_22">To keep aware of the services enabled by you</string>
+    <string name="permission_3">Allow <b>Phone</b> access</string>
+    <string name="permission_33">To store your mobile number to contact you if required</string>
     <string name="title_activity_permission_list">permission_list</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

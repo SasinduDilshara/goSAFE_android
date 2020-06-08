@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".how_it_works">
     <LinearLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -33,7 +32,6 @@
             android:textSize="30sp" />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_below="@+id/appbar"
         android:layout_width="match_parent"
@@ -46,20 +44,19 @@
             android:gravity="center"
             android:padding="10dp"
             android:layout_marginTop="20dp"
-            android:text="Welcome to goSAFE"
+            android:text="How it works?"
             android:textColor="#BF000000"
             android:textSize="20sp" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="244dp"
-            android:layout_above="@+id/content"
-            android:layout_below="@+id/appbar"
-            android:layout_marginVertical="50dp"
-            android:layout_marginBottom="264dp"
-            android:src="@drawable/welcome" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="244dp"
+        android:layout_above="@+id/content"
+        android:layout_below="@+id/appbar"
+        android:layout_marginVertical="50dp"
+        android:layout_marginBottom="264dp"
+        android:src="@drawable/welcome" />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -77,7 +74,7 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Join us and help to stop the spread of Corona( COVID-19 ) virus"
+            android:text="We use Bluetooth to keep track of people that come close to you"
             android:textColor="#97000000"
             android:textSize="18sp" />
         <RelativeLayout
@@ -101,22 +98,21 @@
                 android:layout_alignParentLeft="true" />
 
 
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:paddingHorizontal="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/round_button"
-            android:onClick="goToNext"
-            android:text="next"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
-            android:layout_alignParentRight="true" />
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingHorizontal="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/round_button"
+                android:onClick="skip"
+                android:text="next"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
     </LinearLayout>
-
 </RelativeLayout>

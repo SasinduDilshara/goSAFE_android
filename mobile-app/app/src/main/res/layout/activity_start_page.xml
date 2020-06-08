@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".start_page">
 
     <LinearLayout
         android:id="@+id/appbar"
@@ -33,7 +33,6 @@
             android:textSize="30sp" />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_below="@+id/appbar"
         android:layout_width="match_parent"
@@ -46,7 +45,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:layout_marginTop="20dp"
-            android:text="Welcome to goSAFE"
+            android:text="How it works?"
             android:textColor="#BF000000"
             android:textSize="20sp" />
 
@@ -59,7 +58,6 @@
             android:layout_marginBottom="264dp"
             android:src="@drawable/welcome" />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -77,45 +75,21 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Join us and help to stop the spread of Corona( COVID-19 ) virus"
+            android:text="If a person test positive for Corona virus, we can find everyone that has come close to the patient and warn them to get medical assistance"
             android:textColor="#97000000"
             android:textSize="18sp" />
-        <RelativeLayout
+        <Button
             android:id="@+id/final_btn"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/skip_btn"
-                android:layout_alignParentStart="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:paddingHorizontal="50dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/white_round"
-                android:onClick="skip"
-                android:textSize="15sp"
-                android:text="Skip"
-                android:textColor="#084B6E"
-                android:layout_alignParentLeft="true" />
-
-
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:paddingHorizontal="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/round_button"
-            android:onClick="goToNext"
-            android:text="next"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
-            android:layout_alignParentRight="true" />
-        </RelativeLayout>
+            android:onClick="login"
+            android:text="Join goSAFE"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
