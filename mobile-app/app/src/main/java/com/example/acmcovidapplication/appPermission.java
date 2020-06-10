@@ -1,6 +1,6 @@
 package com.example.acmcovidapplication;
 
-import android.app.job.JobScheduler;
+import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.example.acmcovidapplication.db.DatabaseHelper;
 import com.example.acmcovidapplication.services.CustomService;
@@ -30,7 +29,9 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_permission);
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        }
         allowButton = findViewById(R.id.final_btn);
         stopService( new Intent(this, CustomService.class));
 

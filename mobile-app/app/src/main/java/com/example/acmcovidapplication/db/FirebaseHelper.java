@@ -1,6 +1,8 @@
 package com.example.acmcovidapplication.db;
 
 
+import android.util.Log;
+
 import com.example.acmcovidapplication.db.model.DeviceModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+
+import static com.example.acmcovidapplication.services.CustomService.TAG;
 
 
 public class FirebaseHelper {
@@ -54,13 +58,15 @@ public class FirebaseHelper {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "onSuccess: " + deviceModel.getUserID());
                             databaseHelper.deleteDevice(deviceModel.getID());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            System.out.println("fail");
+                            Log.d(TAG, "onFailure: failed to upload id " + deviceModel.getUserID() +"" +
+                                    "\nException - " + e.getMessage());
                         }
                     });
         } catch (ParseException e) {
