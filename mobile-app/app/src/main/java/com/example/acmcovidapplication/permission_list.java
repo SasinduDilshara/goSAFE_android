@@ -1,5 +1,6 @@
 package com.example.acmcovidapplication;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,9 @@ import static com.example.acmcovidapplication.Util.isMyServiceRunning;
 public class permission_list extends AppCompatActivity implements Switch.OnCheckedChangeListener {
     private static final String TAG = "permission_list" ;
     Switch aSwitch;
+    private String[] permissions = Util.getPermissions();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,9 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
         aSwitch.setOnCheckedChangeListener(this);
         aSwitch.setChecked(DatabaseHelper.getInstance(this).isLocationTrackable());
         Util.requestBluetooth(this);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        }
     }
 
     public void goToShare(View view) {
@@ -55,7 +62,7 @@ public class permission_list extends AppCompatActivity implements Switch.OnCheck
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: is running");
-        if (!EasyPermissions.hasPermissions(this, Util.getPermissions()) ) {
+        if (!EasyPermissions.hasPermissions(this, permissions) ) {
             DatabaseHelper.getInstance(this).insertAllowed(false);
             stopService(new Intent(this,CustomService.class));
             Intent intent = new Intent(this, appPermission.class);

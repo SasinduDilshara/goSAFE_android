@@ -1,5 +1,6 @@
 package com.example.acmcovidapplication;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,9 @@ public class share extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        }
     }
 
     public void shareApp(View view) {

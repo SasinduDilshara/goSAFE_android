@@ -62,7 +62,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.CustomService" />
+        <service android:name=".services.CustomService" android:foregroundServiceType="location" />
         <service
             android:name=".services.CustomJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
