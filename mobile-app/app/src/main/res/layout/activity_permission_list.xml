@@ -183,18 +183,16 @@
             android:textColor="@color/colorPrimaryDark"></TextView>
     </LinearLayout>
     </ScrollView>
-        <Button
-            android:id="@+id/final_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_button"
-            android:onClick="goToShare"
-            android:text="Share This App"
-            android:textColor="#ffffff" />
+    <Button
+        android:id="@+id/final_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_button"
+        android:onClick="goToShare"
+        android:text="Share this app"
+        android:textColor="#ffffff" />
 </RelativeLayout>

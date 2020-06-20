@@ -60,7 +60,7 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     @Override
     protected void onResume() {
         super.onResume();
-        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
+        //allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
     }
 
     public void goToAbout(View view) {
@@ -79,7 +79,7 @@ public class appPermission extends AppCompatActivity implements EasyPermissions.
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
         String[] permissions = Util.getPermissions();
-        allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
+        //allowButton.setEnabled(EasyPermissions.hasPermissions(this, permissions));
         Button btn=findViewById(R.id.final_btn);
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
         btn.startAnimation(animFadeIn);
