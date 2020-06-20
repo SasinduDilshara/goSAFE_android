@@ -96,6 +96,7 @@
                 android:background="@drawable/white_round"
                 android:onClick="skip"
                 android:textSize="15sp"
+                android:layout_marginBottom="10dp"
                 android:text="Skip"
                 android:textColor="#084B6E"
                 android:layout_alignParentLeft="true" />
