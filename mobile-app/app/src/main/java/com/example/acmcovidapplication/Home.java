@@ -26,10 +26,16 @@ public class Home extends AppCompatActivity  {
 
     }
 
-    public void goToLogin(View view) {
-        Intent intent = new Intent(Home.this, login.class);
+    public void goToNext(View view) {
+        Intent intent = new Intent(Home.this, how_it_works.class);
         startActivity(intent);
+
     }
 
+
+    public void skip(View view) {
+        Intent intent = new Intent(Home.this, start_page.class);
+        startActivity(intent);
+    }
 
 }

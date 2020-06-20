@@ -70,12 +70,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void goToLogin(View view) {
-        Intent intent = new Intent(MainActivity.this, login.class);
-        startActivity(intent);
-
-    }
-
 
 }
 
