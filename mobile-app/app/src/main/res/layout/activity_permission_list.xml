@@ -180,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/location_enabling"
-            android:textColor="@color/colorPrimaryDark"></TextView>
+            android:textColor="#97000000"></TextView>
     </LinearLayout>
     </ScrollView>
     <Button
